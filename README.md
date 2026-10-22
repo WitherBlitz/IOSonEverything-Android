@@ -1,4 +1,4 @@
-# iOS on All Phones
+# IOSonEverything (Android)
 
 A large directory of projects exploring iOS, iPadOS, and Apple's XNU kernel on
 Android hardware. Inspired by [ios-sweet](https://github.com/dipa-studio/ios-sweet).
