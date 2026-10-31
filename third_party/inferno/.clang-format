@@ -1,0 +1,205 @@
+# ChefKiss Coding Style v2.1
+---
+AccessModifierOffset: -4
+AlignAfterOpenBracket: Align
+AlignConsecutiveMacros:
+  Enabled: true
+  AcrossEmptyLines: false
+  AcrossComments: false
+  AlignCompound: true
+  AlignFunctionPointers: true
+  PadOperators: true
+  AlignFunctionDeclarations: true
+AlignConsecutiveAssignments:
+  Enabled: true
+  AcrossEmptyLines: false
+  AcrossComments: false
+  AlignCompound: true
+  AlignFunctionPointers: true
+  PadOperators: true
+  AlignFunctionDeclarations: true
+AlignConsecutiveDeclarations:
+  Enabled: true
+  AcrossEmptyLines: false
+  AcrossComments: false
+  AlignCompound: true
+  AlignFunctionPointers: true
+  PadOperators: true
+  AlignFunctionDeclarations: true
+AlignEscapedNewlines: LeftWithLastLine
+AlignOperands: Align
+AlignTrailingComments: true
+AllowAllArgumentsOnNextLine: false
+AllowAllParametersOfDeclarationOnNextLine: false
+AllowShortBlocksOnASingleLine: Always
+AllowShortCaseLabelsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: All
+AllowShortIfStatementsOnASingleLine: AllIfsAndElse
+AllowShortLambdasOnASingleLine: All
+AllowShortLoopsOnASingleLine: true
+AlwaysBreakAfterReturnType: None
+AlwaysBreakBeforeMultilineStrings: false
+AlwaysBreakTemplateDeclarations: Yes
+BinPackArguments: true
+BinPackParameters: BinPack
+BreakBeforeBinaryOperators: NonAssignment
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterCaseLabel: false
+  AfterClass: true
+  AfterControlStatement: MultiLine
+  AfterEnum: true
+  AfterFunction: true
+  AfterNamespace: true
+  AfterObjCDeclaration: true
+  AfterStruct: true
+  AfterUnion: true
+  AfterExternBlock: true
+  BeforeCatch: true
+  BeforeElse: true
+  IndentBraces: false
+  SplitEmptyFunction: false
+  SplitEmptyRecord: false
+  SplitEmptyNamespace: false
+  BeforeWhile: true
+  BeforeLambdaBody: true
+BreakBeforeTernaryOperators: false
+BreakConstructorInitializers: AfterColon
+BreakInheritanceList: AfterColon
+BreakStringLiterals: true
+ColumnLimit: 120
+CompactNamespaces: false
+ConstructorInitializerIndentWidth: 4
+ContinuationIndentWidth: 4
+Cpp11BracedListStyle: true
+DerivePointerAlignment: false
+DisableFormat: false
+FixNamespaceComments: true
+IncludeBlocks: Merge
+IndentCaseLabels: true
+IndentPPDirectives: BeforeHash
+IndentWidth: 4
+IndentWrappedFunctionNames: true
+NamespaceIndentation: All
+PointerAlignment: Left
+ReflowComments: true
+SortIncludes: false
+SortUsingDeclarations: true
+SpaceAfterCStyleCast: false
+SpaceAfterLogicalNot: false
+SpaceAfterTemplateKeyword: false
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeCpp11BracedList: false
+SpaceBeforeCtorInitializerColon: true
+SpaceBeforeInheritanceColon: true
+SpaceBeforeRangeBasedForLoopColon: true
+SpacesBeforeTrailingComments: 4
+SpacesInAngles: false
+SpacesInContainerLiterals: true
+Standard: Latest
+UseTab: Never
+AlignConsecutiveBitFields:
+  Enabled: true
+  AlignFunctionDeclarations: true
+  AlignFunctionPointers: true
+  PadOperators: true
+  AlignCompound: true
+AlignConsecutiveShortCaseStatements:
+  Enabled: true
+  AlignCaseColons: true
+  AlignCaseArrows: true
+AllowBreakBeforeNoexceptSpecifier: Always
+AllowShortCaseExpressionOnASingleLine: true
+AllowShortCompoundRequirementOnASingleLine: true
+AllowShortEnumsOnASingleLine: true
+AllowShortNamespacesOnASingleLine: true
+BinPackLongBracedList: true
+BitFieldColonSpacing: Both
+BreakAdjacentStringLiterals: true
+BreakAfterAttributes: Always
+RemoveEmptyLinesInUnwrappedLines: true
+PackConstructorInitializers: Never
+SpaceBeforeParensOptions:
+  AfterControlStatements: true
+  AfterForeachMacros: true
+  AfterFunctionDeclarationName: true
+  AfterFunctionDefinitionName: true
+  AfterIfMacros: true
+  AfterNot: true
+  AfterOverloadedOperator: true
+  AfterPlacementOperator: true
+  AfterRequiresInClause: true
+  AfterRequiresInExpression: true
+  BeforeNonEmptyParentheses: false
+SpaceInEmptyBlock: true
+SpacesInParensOptions: {}
+WrapNamespaceBodyWithEmptyLines: Always
+ReferenceAlignment: Pointer
+QualifierAlignment: Left
+InsertBraces: true
+InsertNewlineAtEOF: true
+ForEachMacros:
+  [
+    "CPU_FOREACH",
+    "CPU_FOREACH_REVERSE",
+    "CPU_FOREACH_SAFE",
+    "IOMMU_NOTIFIER_FOREACH",
+    "QLIST_FOREACH",
+    "QLIST_FOREACH_ENTRY",
+    "QLIST_FOREACH_RCU",
+    "QLIST_FOREACH_SAFE",
+    "QLIST_FOREACH_SAFE_RCU",
+    "QSIMPLEQ_FOREACH",
+    "QSIMPLEQ_FOREACH_SAFE",
+    "QSLIST_FOREACH",
+    "QSLIST_FOREACH_SAFE",
+    "QTAILQ_FOREACH",
+    "QTAILQ_FOREACH_REVERSE",
+    "QTAILQ_FOREACH_SAFE",
+    "QTAILQ_RAW_FOREACH",
+    "RAMBLOCK_FOREACH",
+  ]
+IncludeCategories:
+  - Regex: '^".*-internal\.h"'
+    Priority: 2
+  - Regex: '^"qemu/osdep\.h"'
+    Priority: -14
+  - Regex: '^"(linux|standard-headers)'
+    Priority: -13
+  - Regex: '^"qemu/'
+    Priority: -12
+  - Regex: '^"qapi/qapi-(commands|types|visit)'
+    Priority: -11
+  - Regex: '^"qapi/error\.h"'
+    Priority: -10
+  - Regex: '^"qapi/'
+    Priority: -9
+  - Regex: '^"qom/'
+    Priority: -8
+  - Regex: '^"hw/qdev'
+    Priority: -7
+  - Regex: '^"hw/core/qdev'
+    Priority: -6
+  - Regex: '^"ui/input-keymap'
+    Priority: 1
+  - Regex: '^"exec/helper-proto-common\.h"'
+    Priority: -6
+  - Regex: '^"exec/'
+    Priority: -5
+  - Regex: '^"tcg/tcg.h"'
+    Priority: -4
+  - Regex: '^"tcg/'
+    Priority: -3
+  - Regex: '^"(block|chardev|crypto|disas|fpu|hw|io|net|qemu|qom|system|ui|accel|target|plugins|authz|audio)/'
+    Priority: -2
+  - Regex: '^"(elf\.h|qemu-common\.h|glib-compat\.h|qemu-io\.h|trace-tcg\.h)'
+    Priority: -1
+  - Regex: ".*"
+    Priority: 0
+IncludeIsMainRegex: "$"
+MacroBlockBegin: ".*_BEGIN$"
+MacroBlockEnd: ".*_END$"
+StatementMacros:
+  - DEFINE_TYPE
+  - DEFINE_TYPES
+  - type_init

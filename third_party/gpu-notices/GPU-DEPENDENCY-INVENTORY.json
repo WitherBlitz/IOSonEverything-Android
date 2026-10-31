@@ -1,0 +1,724 @@
+{
+  "schema_version": 1,
+  "scope": "Existing input/source/notice inventory only; no app/APK/device changes",
+  "app_native_inputs": [
+    {
+      "path": "work/gpu-pipeline/android-app/app/src/main/jniLibs/arm64-v8a/libc++.so",
+      "bytes": 1109112,
+      "sha256": "dd327fb7c8d4abcb0fbb5bb839a946d365102af120466b956637e3559f4353e8",
+      "needed": [
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ],
+      "notes": [
+        {
+          "name": "GNU",
+          "type": 3,
+          "build_id": "3f6a75430111b7c3bac48af41a15963c1b45ab49"
+        }
+      ]
+    },
+    {
+      "path": "work/gpu-pipeline/android-app/app/src/main/jniLibs/arm64-v8a/libgfxstream_backend.so",
+      "bytes": 5978784,
+      "sha256": "41414d640a526f56ce9a151f786e965a6e1fe3769e201790e0e58e7a31ff87da",
+      "needed": [
+        "liblog.so",
+        "libnativewindow.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ],
+      "notes": [
+        {
+          "name": "GNU",
+          "type": 3,
+          "build_id": "6e45513f2e3782ea160e3934995ddbef"
+        }
+      ]
+    },
+    {
+      "path": "work/gpu-pipeline/android-app/app/src/main/jniLibs/arm64-v8a/libios16-7zz.so",
+      "bytes": 2655392,
+      "sha256": "7c652f4c42b1299062d9aefdd750eb37ea1e9aac1ca6d41e69f77c8e825c52e1",
+      "needed": [
+        "libdl.so",
+        "libm.so",
+        "libc.so"
+      ],
+      "notes": [
+        {
+          "name": "GNU",
+          "type": 3,
+          "build_id": "734b4d125c970f05e91f00295a5d4cf26e30b82b"
+        }
+      ],
+      "compiler_comments": [
+        "Android (13624864, +pgo, +bolt, +lto, +mlgo, based on r530567e) clang version 19.0.1 (https://android.googlesource.com/toolchain/llvm-project 97a699bf4812a18fb657c2779f5296a4ab2694d2)",
+        "Linker: LLD 19.0.1"
+      ]
+    },
+    {
+      "path": "work/gpu-pipeline/android-app/app/src/main/jniLibs/arm64-v8a/libios16-unzbm.so",
+      "bytes": 15240,
+      "sha256": "2737b264d817a5fa0a1cbc53d8fdac0380968dd7ee80f59e49cbdfaf3f2094a2",
+      "needed": [
+        "libdl.so",
+        "libc.so"
+      ],
+      "notes": [
+        {
+          "name": "GNU",
+          "type": 3,
+          "build_id": "57c7cc254044308802bba328b0818b7dc364c5f3"
+        }
+      ],
+      "compiler_comments": [
+        "Android (13624864, +pgo, +bolt, +lto, +mlgo, based on r530567e) clang version 19.0.1 (https://android.googlesource.com/toolchain/llvm-project 97a699bf4812a18fb657c2779f5296a4ab2694d2)",
+        "Linker: LLD 19.0.1"
+      ]
+    },
+    {
+      "path": "work/gpu-pipeline/android-app/app/src/main/jniLibs/arm64-v8a/libios_coroutines.so",
+      "bytes": 9288,
+      "sha256": "9e666204371efacd681216d60709379dbfd244cec2a412e29f000df303303c01",
+      "needed": [
+        "libdl.so",
+        "libc.so"
+      ],
+      "notes": [],
+      "compiler_comments": [
+        "Android (13624864, +pgo, +bolt, +lto, +mlgo, based on r530567e) clang version 19.0.1 (https://android.googlesource.com/toolchain/llvm-project 97a699bf4812a18fb657c2779f5296a4ab2694d2)",
+        "Linker: LLD 19.0.1",
+        "Android (13624864, based on r530567e) clang version 19.0.1 (https://android.googlesource.com/toolchain/llvm-project 97a699bf4812a18fb657c2779f5296a4ab2694d2)"
+      ]
+    },
+    {
+      "path": "work/gpu-pipeline/android-app/app/src/main/jniLibs/arm64-v8a/libios_gpu.so",
+      "bytes": 13160,
+      "sha256": "9774e1076f0b8bbed42595592cce03cf2f69efa3fd278358648ea9d8aeacdeb0",
+      "needed": [
+        "libdl.so",
+        "libc.so"
+      ],
+      "notes": [],
+      "compiler_comments": [
+        "Android (13624864, +pgo, +bolt, +lto, +mlgo, based on r530567e) clang version 19.0.1 (https://android.googlesource.com/toolchain/llvm-project 97a699bf4812a18fb657c2779f5296a4ab2694d2)",
+        "Linker: LLD 19.0.1",
+        "Android (13624864, based on r530567e) clang version 19.0.1 (https://android.googlesource.com/toolchain/llvm-project 97a699bf4812a18fb657c2779f5296a4ab2694d2)"
+      ]
+    },
+    {
+      "path": "work/gpu-pipeline/android-app/app/src/main/jniLibs/arm64-v8a/libios_gpu_worker.so",
+      "bytes": 15744,
+      "sha256": "24c6c9a80cd8e5f8e383a2a1ac11a361ba6e791f4471fd819d1da63babe5d03e",
+      "needed": [
+        "libdl.so",
+        "libc.so"
+      ],
+      "notes": [],
+      "compiler_comments": [
+        "Android (13624864, +pgo, +bolt, +lto, +mlgo, based on r530567e) clang version 19.0.1 (https://android.googlesource.com/toolchain/llvm-project 97a699bf4812a18fb657c2779f5296a4ab2694d2)",
+        "Linker: LLD 19.0.1",
+        "Android (13624864, based on r530567e) clang version 19.0.1 (https://android.googlesource.com/toolchain/llvm-project 97a699bf4812a18fb657c2779f5296a4ab2694d2)"
+      ]
+    },
+    {
+      "path": "work/gpu-pipeline/android-app/app/src/main/jniLibs/arm64-v8a/libqemu-system-aarch64-shared.so",
+      "bytes": 12647120,
+      "sha256": "343d52f696cbd6ea385ea31322caff78d4cf730a705cbae9d950a6fbbbc4e68c",
+      "needed": [
+        "libz.so",
+        "libm.so",
+        "libnativewindow.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "notes": [],
+      "compiler_comments": [
+        "Android (13624864, +pgo, +bolt, +lto, +mlgo, based on r530567e) clang version 19.0.1 (https://android.googlesource.com/toolchain/llvm-project 97a699bf4812a18fb657c2779f5296a4ab2694d2)",
+        "Linker: LLD 19.0.1"
+      ]
+    },
+    {
+      "path": "work/gpu-pipeline/android-app/app/src/main/jniLibs/arm64-v8a/libqemu-system-aarch64-virt.so",
+      "bytes": 35271120,
+      "sha256": "5ef0fb86f0f7c1dd3cb6a282b7b9e4bcf4f5d40769273c64532a8b47fdb5e72b",
+      "needed": [
+        "libz.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "notes": []
+    },
+    {
+      "path": "work/gpu-pipeline/android-app/app/src/main/jniLibs/arm64-v8a/libqemu-system-aarch64.so",
+      "bytes": 12460296,
+      "sha256": "0d1dd991bd02f9b1364aff258a01dbae3ea0095e4da491ac3a2eacd0efe8cee0",
+      "needed": [
+        "libz.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "notes": [],
+      "compiler_comments": [
+        "Android (13624864, +pgo, +bolt, +lto, +mlgo, based on r530567e) clang version 19.0.1 (https://android.googlesource.com/toolchain/llvm-project 97a699bf4812a18fb657c2779f5296a4ab2694d2)",
+        "Linker: LLD 19.0.1"
+      ]
+    },
+    {
+      "path": "work/gpu-pipeline/android-app/app/src/main/jniLibs/arm64-v8a/libqemu_jni.so",
+      "bytes": 10904,
+      "sha256": "4f99665c3cc80311016f2ed30d7e8290c53bf09e3116970e6cbc328d09ba706d",
+      "needed": [
+        "libandroid.so",
+        "liblog.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "notes": [],
+      "compiler_comments": [
+        "Android (13624864, +pgo, +bolt, +lto, +mlgo, based on r530567e) clang version 19.0.1 (https://android.googlesource.com/toolchain/llvm-project 97a699bf4812a18fb657c2779f5296a4ab2694d2)",
+        "Linker: LLD 19.0.1",
+        "Android (13624864, based on r530567e) clang version 19.0.1 (https://android.googlesource.com/toolchain/llvm-project 97a699bf4812a18fb657c2779f5296a4ab2694d2)"
+      ]
+    },
+    {
+      "path": "work/gpu-pipeline/android-app/app/src/main/jniLibs/arm64-v8a/libscfb.so",
+      "bytes": 9360,
+      "sha256": "a74463c88227ff0fe60ae36517184f39e96381386b56916c9a342271e3f51a5f",
+      "needed": [
+        "libandroid.so",
+        "liblog.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "notes": [
+        {
+          "name": "GNU",
+          "type": 3,
+          "build_id": "b959dfb7cf8600c6a0885250d7e886ba23885a91"
+        }
+      ],
+      "compiler_comments": [
+        "Android (13624864, +pgo, -bolt, +lto, -mlgo, based on r530567e) clang version 19.0.1 (https://android.googlesource.com/toolchain/llvm-project 97a699bf4812a18fb657c2779f5296a4ab2694d2)",
+        "Linker: LLD 19.0.1"
+      ]
+    }
+  ],
+  "notices": [
+    {
+      "path": "work/gpu-pipeline/host-research/gpu-notices/Scion-AGPL-3.0.txt",
+      "bytes": 35184,
+      "sha256": "e0eedba615d5cd1b986afb6c5b3a4b1ae33713e7e9dc74d19daec5e3221f9d2e",
+      "original": {
+        "path": "work/gpu-pipeline/android-app/LICENSE",
+        "bytes": 35184,
+        "sha256": "e0eedba615d5cd1b986afb6c5b3a4b1ae33713e7e9dc74d19daec5e3221f9d2e"
+      },
+      "coverage": "Scion-derived app and new AGPL worker/bridge"
+    },
+    {
+      "path": "work/gpu-pipeline/host-research/gpu-notices/Pyre-Inferno-LICENSE.txt",
+      "bytes": 2485,
+      "sha256": "775404de867757575d2792e6077fd52aa23a6cce0495cd485e6c28a476d20dcb",
+      "original": {
+        "path": "work/gpu-pipeline/android-app/third_party/inferno/LICENSE",
+        "bytes": 2485,
+        "sha256": "775404de867757575d2792e6077fd52aa23a6cce0495cd485e6c28a476d20dcb"
+      },
+      "coverage": "Pyre derivative licensing statement"
+    },
+    {
+      "path": "work/gpu-pipeline/host-research/gpu-notices/Pyre-QEMU-GPL-2.0.txt",
+      "bytes": 35823,
+      "sha256": "230184f60bae2feaf244f10a8bac053c8ff33a183bcc365b4d8b876d2b7f4809",
+      "original": {
+        "path": "work/gpu-pipeline/android-app/third_party/inferno/COPYING",
+        "bytes": 35823,
+        "sha256": "230184f60bae2feaf244f10a8bac053c8ff33a183bcc365b4d8b876d2b7f4809"
+      },
+      "coverage": "Retained QEMU GPL text"
+    },
+    {
+      "path": "work/gpu-pipeline/host-research/gpu-notices/Pyre-AGPL-3.0.txt",
+      "bytes": 35184,
+      "sha256": "e0eedba615d5cd1b986afb6c5b3a4b1ae33713e7e9dc74d19daec5e3221f9d2e",
+      "original": {
+        "path": "work/gpu-pipeline/android-app/third_party/inferno/COPYING_AGPL-3.0",
+        "bytes": 35184,
+        "sha256": "e0eedba615d5cd1b986afb6c5b3a4b1ae33713e7e9dc74d19daec5e3221f9d2e"
+      },
+      "coverage": "Retained Pyre additions AGPL text"
+    },
+    {
+      "path": "work/gpu-pipeline/host-research/gpu-notices/Pyre-LGPL-2.1.txt",
+      "bytes": 26916,
+      "sha256": "e5f99d9374f77e8e0931ddea20c7c375185a3a78514cb0ce74e2bf6b4cbecf62",
+      "original": {
+        "path": "work/gpu-pipeline/android-app/third_party/inferno/COPYING.LIB",
+        "bytes": 26916,
+        "sha256": "e5f99d9374f77e8e0931ddea20c7c375185a3a78514cb0ce74e2bf6b4cbecf62"
+      },
+      "coverage": "Retained library GPL/LGPL text"
+    },
+    {
+      "path": "work/gpu-pipeline/host-research/gpu-notices/HackiOS-MIT.txt",
+      "bytes": 1372,
+      "sha256": "f03e19d4b42362cacf0be062d9d54b634e262702f516b602320f5530d4f5f002",
+      "original": {
+        "path": "work/gpu-pipeline/host-research/source/hack/LICENSE",
+        "bytes": 1372,
+        "sha256": "f03e19d4b42362cacf0be062d9d54b634e262702f516b602320f5530d4f5f002"
+      },
+      "coverage": "HackiOS own guest encoder/EAGL/APFS helper code"
+    },
+    {
+      "path": "work/gpu-pipeline/host-research/gpu-notices/gfxstream-research-pin-Apache-2.0.txt",
+      "bytes": 11358,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "original": {
+        "path": "work/gpu-pipeline/host-research/source/gfx/LICENSE",
+        "bytes": 11358,
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      "coverage": "Verified research source pin only; not the copied APEX binary commit"
+    },
+    {
+      "path": "work/gpu-pipeline/host-research/gpu-notices/QEMU-10.1-GPL-2.0.txt",
+      "bytes": 17880,
+      "sha256": "dd3ce02338c3a48abb6ba59b48809f7108a8bd242cb0cc8be90daafa30707c28",
+      "original": {
+        "path": "work/gpu-pipeline/ios16-engine/out/COPYING.QEMU",
+        "bytes": 17880,
+        "sha256": "dd3ce02338c3a48abb6ba59b48809f7108a8bd242cb0cc8be90daafa30707c28"
+      },
+      "coverage": "Stock QEMU executable"
+    },
+    {
+      "path": "work/gpu-pipeline/host-research/gpu-notices/QEMU-10.1-LGPL-2.1.txt",
+      "bytes": 26415,
+      "sha256": "31c90ce76b6f5aab90a205851e71d5c27e31c0aa3d7017a4383b98a6fe3f1faa",
+      "original": {
+        "path": "work/gpu-pipeline/ios16-engine/out/COPYING.LIB.QEMU",
+        "bytes": 26415,
+        "sha256": "31c90ce76b6f5aab90a205851e71d5c27e31c0aa3d7017a4383b98a6fe3f1faa"
+      },
+      "coverage": "Stock QEMU library notice"
+    },
+    {
+      "path": "work/gpu-pipeline/host-research/gpu-notices/com.android.virt-NOTICE.html.gz",
+      "bytes": 201836,
+      "sha256": "4ed93e192e445cc2b81d437fe73579fcff684ea17c6f4b6a222daaf199893893",
+      "original": {
+        "path": "work/gpu-pipeline/host-research/apex-provenance/assets/NOTICE.html.gz",
+        "bytes": 201836,
+        "sha256": "4ed93e192e445cc2b81d437fe73579fcff684ea17c6f4b6a222daaf199893893"
+      },
+      "coverage": "Verbatim captured APEX notice for provenance only; the two target members are system symlinks, so this is not a per-library notice match"
+    },
+    {
+      "path": "work/gpu-pipeline/host-research/gpu-notices/ios16-tools-7zip-LGPL-2.1.txt",
+      "bytes": 26530,
+      "sha256": "dc626520dcd53a22f727af3ee42c770e56c97a64fe3adb063799d8ab032fe551",
+      "original": {
+        "path": "work/gpu-pipeline/ios16-installer-tools/artifacts/licenses/7zip-LGPL-2.1.txt",
+        "bytes": 26530,
+        "sha256": "dc626520dcd53a22f727af3ee42c770e56c97a64fe3adb063799d8ab032fe551"
+      },
+      "coverage": "Exact installer tool build notice"
+    },
+    {
+      "path": "work/gpu-pipeline/host-research/gpu-notices/ios16-tools-7zip-License.txt",
+      "bytes": 6190,
+      "sha256": "dac8389b6bc39339537bc351772106afe7951cb242cdf03e855b67c3a683deb1",
+      "original": {
+        "path": "work/gpu-pipeline/ios16-installer-tools/artifacts/licenses/7zip-License.txt",
+        "bytes": 6190,
+        "sha256": "dac8389b6bc39339537bc351772106afe7951cb242cdf03e855b67c3a683deb1"
+      },
+      "coverage": "Exact installer tool build notice"
+    },
+    {
+      "path": "work/gpu-pipeline/host-research/gpu-notices/ios16-tools-libzbitmap-MIT.txt",
+      "bytes": 1057,
+      "sha256": "40e65e7ba62903c113ae3f7dd582cc4e7a8e9719519a367381810f0d2d3539e2",
+      "original": {
+        "path": "work/gpu-pipeline/ios16-installer-tools/artifacts/licenses/libzbitmap-MIT.txt",
+        "bytes": 1057,
+        "sha256": "40e65e7ba62903c113ae3f7dd582cc4e7a8e9719519a367381810f0d2d3539e2"
+      },
+      "coverage": "Exact installer tool build notice"
+    },
+    {
+      "path": "work/gpu-pipeline/host-research/gpu-notices/ios16-tools-lzfse-fixture-encoder-BSD-3.txt",
+      "bytes": 1514,
+      "sha256": "2a20082c2219edbbdb2e862a0566ba4f762a564ade7c04b09250ae4464bc4b32",
+      "original": {
+        "path": "work/gpu-pipeline/ios16-installer-tools/artifacts/licenses/lzfse-fixture-encoder-BSD-3.txt",
+        "bytes": 1514,
+        "sha256": "2a20082c2219edbbdb2e862a0566ba4f762a564ade7c04b09250ae4464bc4b32"
+      },
+      "coverage": "Exact installer tool build notice"
+    },
+    {
+      "path": "work/gpu-pipeline/host-research/gpu-notices/ios16-tools-NDK-NOTICE",
+      "bytes": 516438,
+      "sha256": "faf0dc52cf6ce9ab09a04b0c074a378dd2565ee1ed9bc1179d83793bcdba012e",
+      "original": {
+        "path": "work/gpu-pipeline/ios16-installer-tools/artifacts/licenses/NDK-NOTICE",
+        "bytes": 516438,
+        "sha256": "faf0dc52cf6ce9ab09a04b0c074a378dd2565ee1ed9bc1179d83793bcdba012e"
+      },
+      "coverage": "Exact installer tool build notice"
+    },
+    {
+      "path": "work/gpu-pipeline/host-research/gpu-notices/ios16-tools-NDK-NOTICE.toolchain",
+      "bytes": 799639,
+      "sha256": "789714a9076571c580cf531bdcebec776a4d889c12c3c1108adafc6e4338710a",
+      "original": {
+        "path": "work/gpu-pipeline/ios16-installer-tools/artifacts/licenses/NDK-NOTICE.toolchain",
+        "bytes": 799639,
+        "sha256": "789714a9076571c580cf531bdcebec776a4d889c12c3c1108adafc6e4338710a"
+      },
+      "coverage": "Exact installer tool build notice"
+    },
+    {
+      "path": "work/gpu-pipeline/host-research/gpu-notices/ios16-tools-unzbm-stream-MIT.txt",
+      "bytes": 1091,
+      "sha256": "edcb852c29b03c1059b9debab105a80bf8327e43c297f295fb878cb2a22e395a",
+      "original": {
+        "path": "work/gpu-pipeline/ios16-installer-tools/artifacts/licenses/unzbm-stream-MIT.txt",
+        "bytes": 1091,
+        "sha256": "edcb852c29b03c1059b9debab105a80bf8327e43c297f295fb878cb2a22e395a"
+      },
+      "coverage": "Exact installer tool build notice"
+    }
+  ],
+  "source_files": [
+    {
+      "path": "work/gpu-pipeline/android-app/native/gpu/bridge.c",
+      "bytes": 7908,
+      "sha256": "b9109043ff68ec0ff6a427f849b2549deda4cafede2d1e817da963739c3a1096"
+    },
+    {
+      "path": "work/gpu-pipeline/android-app/native/gpu/protocol.h",
+      "bytes": 1195,
+      "sha256": "03137451ab22cfe5c481bf0a8d432514940deaaf39f80218f747e28e19d86cca"
+    },
+    {
+      "path": "work/gpu-pipeline/android-app/native/gpu/renderer.c",
+      "bytes": 8713,
+      "sha256": "211788f4609f500a326e4c6c799ebe2b67a52cfdb4cd01b6f9f6d77fcefcccd0"
+    },
+    {
+      "path": "work/gpu-pipeline/android-app/native/gpu/renderer.h",
+      "bytes": 166,
+      "sha256": "b042e0a06ac2cf35a018375ab62ce1204cbf4a478f264d17d3f7c58ff354b1a4"
+    },
+    {
+      "path": "work/gpu-pipeline/android-app/native/gpu/worker.c",
+      "bytes": 2195,
+      "sha256": "5a527c62ede92982e42009187ef3ea16466b921adeb267d1f2acc5a0b7e713a9"
+    },
+    {
+      "path": "work/gpu-pipeline/android-app/native/gpu/worker_protocol.h",
+      "bytes": 1600,
+      "sha256": "91e87287ce719cd84f898ef774afb272d56aa352f6d7ba76091ad23a9782050f"
+    },
+    {
+      "path": "work/gpu-pipeline/build-transport.py",
+      "bytes": 1589,
+      "sha256": "443f39d94126951f4f226ad5b273f6f47c1602a18c6c6a0f68be752d8d0185db"
+    },
+    {
+      "path": "work/gpu-pipeline/build-gpu-worker.py",
+      "bytes": 1106,
+      "sha256": "5cf16fa124417a1e93c43e6a035b59d27ff3c437a75fecbd0cc1ee56906b3b8c"
+    },
+    {
+      "path": "work/gpu-pipeline/transport-source.json",
+      "bytes": 529,
+      "sha256": "e84be184ee452fde92493965b29e0772607252a760f3da2aed72a0ffed9d22fd"
+    },
+    {
+      "path": "work/gpu-pipeline/new-engine-provenance.json",
+      "bytes": 496,
+      "sha256": "8e60b8d2ef210396e2611c71550ad7ba802247345de0f90c8fd8c7d5faa327fb"
+    },
+    {
+      "path": "work/gpu-pipeline/build-eagl-port.py",
+      "bytes": 8819,
+      "sha256": "c9a37251f774d9ef753c7ee411104f3d55ebaff688408915bcf03270a09f82e2"
+    },
+    {
+      "path": "work/gpu-pipeline/build-eagl-compat-arm64e.py",
+      "bytes": 25356,
+      "sha256": "b2edb8978d35d18cd80f894b8fa5895d2005c3df42eaccc24e08b41fd6efdee8"
+    },
+    {
+      "path": "work/gpu-pipeline/ios16-engine/logs/source.patch",
+      "bytes": 10598,
+      "sha256": "4074c4c0eb6838824f28ae6606be0eb50854cda4e181544336ea0487cc816315"
+    },
+    {
+      "path": "work/gpu-pipeline/ios16-installer-tools/source-receipt.json",
+      "bytes": 893,
+      "sha256": "e2824848a05ff4d155325eba15d88580892d1674c034bbd47f5f017c0adb9a97"
+    },
+    {
+      "path": "work/gpu-pipeline/ios16-installer/NOTICE.json",
+      "bytes": 1582,
+      "sha256": "5b01e0abb60a9f90c110f687e54b13a30b35a66dfa363664da219b3e2dfbfad3"
+    }
+  ],
+  "app_asset_inputs": [
+    {
+      "path": "work/gpu-pipeline/android-app/app/src/main/assets/guest-tools/inferno_fs_patcher",
+      "bytes": 153888,
+      "sha256": "716f54ce4b2ad4f79c3914c2957a617e69eeea2884d25cecb27a134eeedcb8c6"
+    },
+    {
+      "path": "work/gpu-pipeline/android-app/app/src/main/assets/guest-tools/inferno_patcher",
+      "bytes": 51216,
+      "sha256": "afdd06c60da1c4927aec79850cf846a192a4336404232974004c0e674fe32b7b"
+    },
+    {
+      "path": "work/gpu-pipeline/android-app/app/src/main/assets/guest-tools/ticket-template.plist",
+      "bytes": 8997,
+      "sha256": "26dfa587bd7d528770fe2a2957b7cc3c5cb384cf7127bb4157e327230055db7c"
+    },
+    {
+      "path": "work/gpu-pipeline/android-app/app/src/main/assets/qemu-data/keymaps/en-us",
+      "bytes": 27086,
+      "sha256": "52cf4c523e686078699ed58761c7e1443080305237a5f67a3716832570c5c8e5"
+    }
+  ],
+  "apex": {
+    "archive": {
+      "path": "work/gpu-pipeline/host-research/apex-provenance/com.android.virt.apex",
+      "bytes": 99209216,
+      "sha256": "1265b937ffb8a284af4b7a11fab56bb2df7d6561e2dfe91c15941f292f30b41a"
+    },
+    "payload": {
+      "path": "work/gpu-pipeline/host-research/apex-provenance/apex_payload.img",
+      "bytes": 98959360,
+      "sha256": "0098d031a360a180f50b36c8832bf5c8972449d4da2a784e8c187bf8c9725270"
+    },
+    "manifest": {
+      "path": "work/gpu-pipeline/host-research/apex-provenance/apex_manifest.pb",
+      "bytes": 370,
+      "sha256": "10e0d8490e116d123c3b97bd956ab3a5c22d8e4184b79e204dff4e5f49aec5cc"
+    },
+    "build_info": {
+      "path": "work/gpu-pipeline/host-research/apex-provenance/apex_build_info.pb",
+      "bytes": 4276,
+      "sha256": "94d1a56b1e00c780320b062b6ee93b6acd51b534a828658f03369a0720a91530"
+    },
+    "decoded_protobuf": "apex-provenance/protobuf-fields.json",
+    "binary_comparisons": [
+      {
+        "member": "lib64/libgfxstream_backend.so",
+        "member_type": "symbolic link",
+        "link_target": "/system/lib64/libgfxstream_backend.so",
+        "link_bytes": 37,
+        "cached_phone_copy": {
+          "path": "work/gpu-pipeline/libgfxstream_backend.so",
+          "bytes": 5978784,
+          "sha256": "41414d640a526f56ce9a151f786e965a6e1fe3769e201790e0e58e7a31ff87da",
+          "needed": [
+            "liblog.so",
+            "libnativewindow.so",
+            "libc++.so",
+            "libc.so",
+            "libm.so",
+            "libdl.so"
+          ],
+          "notes": [
+            {
+              "name": "GNU",
+              "type": 3,
+              "build_id": "6e45513f2e3782ea160e3934995ddbef"
+            }
+          ]
+        },
+        "matches_current_jni_input": true,
+        "contains_elf_in_apex": false
+      },
+      {
+        "member": "lib64/libc++.so",
+        "member_type": "symbolic link",
+        "link_target": "/system/lib64/libc++.so",
+        "link_bytes": 23,
+        "cached_phone_copy": {
+          "path": "work/gpu-pipeline/libc++.so",
+          "bytes": 1109112,
+          "sha256": "dd327fb7c8d4abcb0fbb5bb839a946d365102af120466b956637e3559f4353e8",
+          "needed": [
+            "libc.so",
+            "libm.so",
+            "libdl.so"
+          ],
+          "notes": [
+            {
+              "name": "GNU",
+              "type": 3,
+              "build_id": "3f6a75430111b7c3bac48af41a15963c1b45ab49"
+            }
+          ]
+        },
+        "matches_current_jni_input": true,
+        "contains_elf_in_apex": false
+      }
+    ],
+    "notice": {
+      "gzip": {
+        "path": "work/gpu-pipeline/host-research/apex-provenance/assets/NOTICE.html.gz",
+        "bytes": 201836,
+        "sha256": "4ed93e192e445cc2b81d437fe73579fcff684ea17c6f4b6a222daaf199893893"
+      },
+      "uncompressed_bytes": 2193477,
+      "uncompressed_sha256": "3bf74cc956f1026b64f830fca38196feb931d3e5b4fe25e3eb6898586a21f709",
+      "toc_entries": [
+        "com.android.virt/app/EmptyPayloadApp@BP4A.251205.006/EmptyPayloadApp.apk",
+        "com.android.virt/app/android.system.virtualmachine.res@BP4A.251205.006/android.system.virtualmachine.res.apk",
+        "com.android.virt/bin/crosvm",
+        "com.android.virt/bin/early_virtmgr",
+        "com.android.virt/bin/fd_server",
+        "com.android.virt/bin/vfio_handler",
+        "com.android.virt/bin/virtmgr",
+        "com.android.virt/bin/virtualizationservice",
+        "com.android.virt/bin/vm",
+        "com.android.virt/bin/vmnic",
+        "com.android.virt/etc/aconfig_flags.pb",
+        "com.android.virt/etc/classpaths/bootclasspath.pb",
+        "com.android.virt/etc/classpaths/systemserverclasspath.pb",
+        "com.android.virt/etc/flag.info",
+        "com.android.virt/etc/flag.map",
+        "com.android.virt/etc/flag.val",
+        "com.android.virt/etc/fs/microdroid_kernel",
+        "com.android.virt/etc/fs/microdroid_super.img",
+        "com.android.virt/etc/fs/microdroid_vbmeta.img",
+        "com.android.virt/etc/microdroid.json",
+        "com.android.virt/etc/microdroid_initrd_debuggable.img",
+        "com.android.virt/etc/microdroid_initrd_normal.img",
+        "com.android.virt/etc/package.map",
+        "com.android.virt/etc/service_vm.bin",
+        "com.android.virt/etc/u-boot.bin",
+        "com.android.virt/etc/vfio_handler.rc",
+        "com.android.virt/etc/vintf/virtualizationservice.xml",
+        "com.android.virt/etc/virtualizationservice.rc",
+        "com.android.virt/etc/vmnic.rc",
+        "com.android.virt/javalib/framework-virtualization.jar",
+        "com.android.virt/javalib/service-virtualization.jar",
+        "com.android.virt/lib64/android.system.virtualizationcommon-ndk.so",
+        "com.android.virt/lib64/android.system.virtualizationservice-ndk.so",
+        "com.android.virt/lib64/libavf.so",
+        "com.android.virt/lib64/libvirtualizationservice_jni.so",
+        "com.android.virt/lib64/libvirtualmachine_jni.so",
+        "com.android.virt/priv-app/VmTerminalApp@BP4A.251205.006/VmTerminalApp.apk",
+        "apex/com.android.virt.apex",
+        "framework/oat/arm64/apex@com.android.virt@javalib@service-virtualization.jar@classes.odex",
+        "framework/oat/arm64/apex@com.android.virt@javalib@service-virtualization.jar@classes.vdex",
+        "Android",
+        "Android"
+      ],
+      "explicit_module_name_matches": {
+        "libgfxstream_backend": 0,
+        "gfxstream": 0,
+        "libc++.so": 0,
+        "libcxx": 0
+      },
+      "system_notice_relevant_filenames": [
+        "/system/lib64/libcxx.dylib.so",
+        "/system/lib64/libcxx.dylib.so"
+      ],
+      "system_notice_candidate_entries": [
+        {
+          "file_name": "/system/lib64/libcxx.dylib.so",
+          "content_id": "22a53954e4e0ec258dfce4391e905dac",
+          "matches_copied_libcxx": false,
+          "candidate_notice": {
+            "path": "work/gpu-pipeline/host-research/license-audit-primary/system-NOTICE-22a53954e4e0ec258dfce4391e905dac.txt",
+            "bytes": 9899,
+            "sha256": "20fe7b00e904ed690e3b9fd6073784d3fc428141dbd10b81c01fd143d0797f58"
+          }
+        },
+        {
+          "file_name": "/system/lib64/libcxx.dylib.so",
+          "content_id": "b377b220f43d747efdec40d69fcaa69d",
+          "matches_copied_libcxx": false,
+          "candidate_notice": {
+            "path": "work/gpu-pipeline/host-research/license-audit-primary/system-NOTICE-b377b220f43d747efdec40d69fcaa69d.txt",
+            "bytes": 1046,
+            "sha256": "36516aefdc84c5d5a1e7485425913a22dbda69eb1930c5e84d6ae4972b5194b9"
+          }
+        }
+      ],
+      "preserve_complete_apex_notice": true,
+      "module_specific_notice_mapping_established": false,
+      "exact_source_commit_established": false
+    }
+  },
+  "system_binary_identity": {
+    "source": "Parent read-only device capture reported in this task on 2026-10-24; no ADB performed by this audit",
+    "files": [
+      {
+        "path": "/system/lib64/libc++.so",
+        "type": "regular file",
+        "bytes": 1109112,
+        "sha256": "dd327fb7c8d4abcb0fbb5bb839a946d365102af120466b956637e3559f4353e8"
+      },
+      {
+        "path": "/system/lib64/libcxx.dylib.so",
+        "type": "regular file",
+        "bytes": 170160,
+        "sha256": "5b8b8ce94f410fd620739517fd58d97051ad359111df4efb2e57ae8f24f3d15d"
+      },
+      {
+        "path": "/system/lib64/libgfxstream_backend.so",
+        "type": "regular file",
+        "bytes": 5978784,
+        "sha256": "41414d640a526f56ce9a151f786e965a6e1fe3769e201790e0e58e7a31ff87da"
+      }
+    ],
+    "libcxx_dylib_is_not_copied_libcxx": true
+  },
+  "pyre_transport_source_matches": [
+    {
+      "file": "target/arm/tcg/helper-a64.c",
+      "expected": "7fbbe07273065e88c3c0e51bbc428bac163101e06bbc1d558606c611904771f9",
+      "exists": true,
+      "matches_after_recorded_crlf_to_lf_export": true
+    },
+    {
+      "file": "target/arm/tcg/helper.h",
+      "expected": "1070e31b7e519ca859b3aa683058bcc413493154ea1b331fa8eb37d7f7287e03",
+      "exists": true,
+      "matches_after_recorded_crlf_to_lf_export": true
+    },
+    {
+      "file": "target/arm/tcg/translate-a64.c",
+      "expected": "005c2d7d5099d483cf7dbb3cffbc5dd70621b24414906784afe0200c50230b17",
+      "exists": true,
+      "matches_after_recorded_crlf_to_lf_export": true
+    },
+    {
+      "file": "target/arm/tcg/iosgpu-helper.c.inc",
+      "expected": "36a5030a2b0cb72846f13c97ce6105e326da2c61fc89e070fa9068d85ae0707c",
+      "exists": true,
+      "matches_after_recorded_crlf_to_lf_export": true
+    },
+    {
+      "file": "include/hw/gpu/iosvm-gpu-protocol.h",
+      "expected": "03137451ab22cfe5c481bf0a8d432514940deaaf39f80218f747e28e19d86cca",
+      "exists": true,
+      "matches_after_recorded_crlf_to_lf_export": true
+    }
+  ]
+}

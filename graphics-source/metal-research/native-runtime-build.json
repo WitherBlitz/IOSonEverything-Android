@@ -1,0 +1,33 @@
+{
+  "upstream_pin": "a2c440b8bcdcf20d34aa1694b61ae22c2a7ea68b",
+  "profile": "release",
+  "abi": "arm64-v8a",
+  "sources": {
+    "Cargo.toml": "4972550fd937401e4a07b17df0887907eeef4be1c11066783cbc141d853c4495",
+    "include/iosgpu_metal.h": "efb4befad62cbed4f6b29e4e8657cc98cfa3a89a37c984e3243230ae821e45fc",
+    "metallib-validation-test/Cargo.toml": "e0a900edeb73b74cf9fb9437ddb7d3a5f5838b93bc624aba4a1a0d2b19648461",
+    "src/batch.rs": "9b6df96753994afd7bf19423cb6d701d64804cc29d28d6d0a08eb8c62ad548cf",
+    "src/color_state.rs": "b8a42889e65db676bbadbe8b27a4407532a91e50d328d6e01af23c09a72591cf",
+    "src/frame_export.rs": "9aec309483fd03a8b3f4ead1b824c64f112b600fe0ea059e69305cdc452a3be5",
+    "src/frame_lease.rs": "3bb01b2017dd45a5825f8f4ff46dfd935a5add77bd733d9c9b8594070cb114ec",
+    "src/lib.rs": "db6c309ad90354ef0a1c81c951dd0381fb443a19e983226c9e106df98a00d9c0",
+    "src/limits.rs": "5923ee69fff54e4d86220186ea1c4fa259cec201dda4cf11e50d5fff9e37f74c",
+    "src/metallib_validation.rs": "c42fef93a97ec8933d9e96780fa9e12ff1b1c5e0ecf4b61a9fc81090fbc3780a",
+    "src/profile.rs": "92ab319d82d9ff49cb6552793fcdca3c22c4a99ad00051be699878a31fdfdbbc",
+    "src/reply.rs": "9f6f171d4bdfbf2f7b000532e418441dc6bb264ae2d82604c749f27359128af6",
+    "src/vertex_layout.rs": "d37e1bcfe8ecc2328aa15bb0f08e781ccc01ffa4b3a6b9735dfdfb0a00e86a17",
+    "src/wire.rs": "2b080634adb9a90aa9c13934ebf77e6ed1774a6cb683ec8cc7ce8a0e08239e89",
+    "tests/blending-fixture.h": "9c4efca340d775801790218f25d716e178137730d78a7d4983ec926d8461baf8",
+    "tests/metallib-fixtures.rs": "1c16bdd0e25865e3ac258fbb168713807b5173760bb1fd61e34396ed5f4821af",
+    "tests/sampling-fixture.h": "dae68aa0c1aa9456c64c4427f13539e3de2049aee4d01b63c2e3f92dc31fe1eb",
+    "tests/vertex-layout-fixture.h": "54e89a4e37ee21793f1b7cf00ec8bb81d0eaded172b7a1258d5bbf3792e664e7"
+  },
+  "libiosgpu_metal.so": {
+    "sha256": "4367d6085e52ccfd92ba8e94a38516d8ea6ea26ca4f8c95dca21155755178798",
+    "bytes": 19370880
+  },
+  "native-runtime-Cargo.lock": {
+    "sha256": "94c24162880990a21eddb41634d8c557b8fef98124a1349aff6baea90f34ac20",
+    "bytes": 5918
+  }
+}

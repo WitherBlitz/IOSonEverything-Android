@@ -1,0 +1,30 @@
+{
+  "source": "Android integration source with qualified v5 native payloads",
+  "copied_files": 2380,
+  "verified_native_baseline_apk_sha256": "2fab61aae409a684ab0a68c0b0bc1a83fc702c101802dc74a67378a2bc528a3f",
+  "native_inputs": {
+    "libc++.so": "dd327fb7c8d4abcb0fbb5bb839a946d365102af120466b956637e3559f4353e8",
+    "libgfxstream_backend.so": "41414d640a526f56ce9a151f786e965a6e1fe3769e201790e0e58e7a31ff87da",
+    "libios16-7zz.so": "7c652f4c42b1299062d9aefdd750eb37ea1e9aac1ca6d41e69f77c8e825c52e1",
+    "libios16-unzbm.so": "2737b264d817a5fa0a1cbc53d8fdac0380968dd7ee80f59e49cbdfaf3f2094a2",
+    "libios_coroutines.so": "44f8c0c79049e184f46356c3110f82f15ca4e75087d7a01662df7ee6c3dd1307",
+    "libios_gpu.so": "454109bfcad5c589ae319777ac869ce4f2c2a3a0995981eb206af67149ae3f0c",
+    "libios_gpu_ipc_bench.so": "567cd4abaffe78b77a0334f05e58d813e466c044bb3dfe9c8c68a39bc024d548",
+    "libios_gpu_upload_bench.so": "526a908d24de9665533610246d7b13d49b2ea4b0efa6d681b3af3f6044069e16",
+    "libios_gpu_worker.so": "0930ba7966a4bd13623260716679eabd1094e653fc411cb312e0d9e6e5c445fb",
+    "libios_metal_abi_test.so": "3b18f686e827a62dd51574252c89185c61063eca52fb2bd648d071160b7045a3",
+    "libios_metal_diagnostic.so": "2d80d570bddf0b60b4d123bd9b9adb9dfa69aedce6e950668d1c5b1e12c08dd9",
+    "libios_metal_native_audit.so": "49f4970bcc153b9f929f37a930330c1f765f866a5437a57fc9d613b490ab4042",
+    "libios_metal_prereq.so": "8641e8b146f5b8247b8a1636db0fef792b9b91640e5af0bcbb3d139dfb663361",
+    "libios_metal_readback_bench.so": "dca33b68e35ec0a1d551cb1ce992f3e1b6729e75eba0ebbc747ea63a3fc3d66c",
+    "libqemu-system-aarch64-shared.so": "3018eb9a6a939a3b6f3f5c3a94ca3e5fa3f65b1924aba1e23aca0e047293b001",
+    "libqemu-system-aarch64-virt.so": "5ef0fb86f0f7c1dd3cb6a282b7b9e4bcf4f5d40769273c64532a8b47fdb5e72b",
+    "libqemu-system-aarch64.so": "65ae8ace3740ea4b4f2ea5552706e622659d18c392bb4e49f0149c67e5b7b2ab",
+    "libqemu_jni.so": "274817189b8d5be85119afaa952c4246f3a220faa5234b525dd8c6054af46032",
+    "libscfb.so": "a74463c88227ff0fe60ae36517184f39e96381386b56916c9a342271e3f51a5f",
+    "libiosgpu_metal.so": "4367d6085e52ccfd92ba8e94a38516d8ea6ea26ca4f8c95dca21155755178798",
+    "libEGL.so": "f285e52a483df166b2777710e5a827ee431fe1772b5596bce61c9d5455b22133"
+  },
+  "excluded_unqualified_strided_candidate": true,
+  "signing_certificate_sha256": "c2cbb7073c6fe491b172ec7790dcc46d533f71c0ac901116e747515ccf7a5cfc"
+}

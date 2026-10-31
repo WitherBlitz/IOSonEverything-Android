@@ -1,0 +1,6 @@
+config PAM
+    bool
+
+config PCI_EXPRESS_GENERIC_BRIDGE
+    bool
+    select PCI_EXPRESS

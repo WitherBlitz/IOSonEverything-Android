@@ -1,0 +1,10 @@
+[wrap-git]
+url = https://chromium.googlesource.com/libyuv/libyuv
+# IOSonEverything future rebuild pin, observed October 24, 2026.
+# Historical Scion CI resolution is not established by this new pin.
+revision = 47ba8e2160b71a7cf95c0720cd8944ab771e533e
+depth = 1
+method = cmake
+
+[provide]
+libyuv = yuv_dep

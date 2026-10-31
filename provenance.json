@@ -1,0 +1,77 @@
+{
+  "app_base": "dylanneve1/scion@f76f9b943de32d55641fbe1f7f5215908845cdf9",
+  "emulator_source": "dylanneve1/pyre@cefb274af5cea523dee6db97bd241421c2a76768",
+  "native_artifact": {
+    "run_id": 39947039788,
+    "artifact_id": 12499076439,
+    "name": "app-debug-apk",
+    "zip_sha256": "2de847b72320887c860f63046d8035c90e959147b3c5eb224b6ccd63b79b4268",
+    "libraries": {
+      "libqemu-system-aarch64-shared.so": "6b3d47b1a81e6255f4c3522d9b1bd9b25b5526a4c2cf185473f5acd68f7ec488",
+      "libqemu-system-aarch64.so": "c485f693986663542e302681331c907f7b1e5cb91f2ce7f1013e437009687f5e",
+      "libqemu_jni.so": "e801cefca760f0ddfc60737b9b370ab6041d5e893435b83ef66f13953014197b",
+      "libscfb.so": "a74463c88227ff0fe60ae36517184f39e96381386b56916c9a342271e3f51a5f"
+    }
+  },
+  "guest_helpers": {
+    "release": "https://github.com/MakrSas/Inferno-iOS/releases/tag/v0.3.1",
+    "ipa_sha256": "c66b56de80d55b989df1c70ebcf4b321751a6703a9d253c9ff349f434fd7c8dc",
+    "app_source_reference": "4bc39702871f5a118d96acbad4df7a675ddf14e0",
+    "fs_patcher_source": "https://git.chefkiss.dev/AppleHax/InfernoFSPatcher/src/commit/3008aaaa0909824a71ee3040c9edc58703c250f5",
+    "release_source_commit": "a8f688a3315ed7fd1effc83cd439fb6662501c85",
+    "source_checks": "Guest daemon, restore client and ramdisk reference files are unchanged between v0.3.1 and the inspected main revision.",
+    "adapted_daemon": {
+      "original_sha256": "8fbf7748dc923f78cf0752251baee2626b9c891cbe5e4a62d53592f92f8091cf",
+      "sha256": "afdd06c60da1c4927aec79850cf846a192a4336404232974004c0e674fe32b7b",
+      "recipe": "native/adapt_guest_daemon.py, native/guest-exec-trace.S and native/guest-sep-prepare.S",
+      "changes": "Exclude dotted cache sidecars for iOS14; child exec phase logging; serialize saved xART/gigalocker/SEP load/ping and cleanup in cold patch boot; regenerate existing ad-hoc page hashes only"
+    }
+  },
+  "public_ticket_template": "https://chefkiss.dev/Extras/Inferno/ticket.shsh2",
+  "firmware": {
+    "build": "18A5351d",
+    "device": "iPhone12,1",
+    "size": 5507405643,
+    "sha256": "706742ed60327a5247c29ccc5bf7e6ce9bbf11dd30a468f8f6fc9da76bdca96d",
+    "zip_crc_verified": true
+  },
+  "firmware_bundled": false,
+  "probe_private_key_bundled": false,
+  "coroutine_compatibility": {
+    "source": "termux/termux-packages@e02748430d74d980fc28587a2d3fdd3881aad57c",
+    "directory": "packages/qemu-system-x86-64-headless/setjmp-aarch64",
+    "license": "AOSP/BSD notices preserved in source",
+    "ndk": "28.2.13676358",
+    "api": 34,
+    "scope": "QEMU-only renamed undefined iossetjmp/ioslongjmp imports; no libc interposition or global policy changes",
+    "build": "native/build-coroutines.py and native/context_imports.py; rebuilt native/qemu_jni.c",
+    "adaptation": "export two named context functions; enforce saved-context checksum via local trap",
+    "input_libraries": {
+      "libios_coroutines.so": "9e666204371efacd681216d60709379dbfd244cec2a412e29f000df303303c01",
+      "libqemu-system-aarch64-shared.so": "fc7ac9e4458d0e85b331d8fc6329470c8a47080006f7d2d05acfcf97a28b1f5f",
+      "libqemu-system-aarch64.so": "3610c5ef2e4ebf0d2cc7c4a923d4a4332436385d87447941038cb7db1da643f1",
+      "libqemu_jni.so": "4f99665c3cc80311016f2ed30d7e8290c53bf09e3116970e6cbc328d09ba706d",
+      "libscfb.so": "a74463c88227ff0fe60ae36517184f39e96381386b56916c9a342271e3f51a5f"
+    },
+    "apk_libraries": {
+      "libios_coroutines.so": "44f8c0c79049e184f46356c3110f82f15ca4e75087d7a01662df7ee6c3dd1307",
+      "libqemu-system-aarch64-shared.so": "fc7ac9e4458d0e85b331d8fc6329470c8a47080006f7d2d05acfcf97a28b1f5f",
+      "libqemu-system-aarch64.so": "3610c5ef2e4ebf0d2cc7c4a923d4a4332436385d87447941038cb7db1da643f1",
+      "libqemu_jni.so": "274817189b8d5be85119afaa952c4246f3a220faa5234b525dd8c6054af46032",
+      "libscfb.so": "a74463c88227ff0fe60ae36517184f39e96381386b56916c9a342271e3f51a5f"
+    },
+    "apk_packaging": {
+      "operation": "Android Gradle Plugin strips unneeded native symbols; NDK r28c llvm-strip --strip-unneeded reproduces both changed APK libraries byte-for-byte",
+      "changed_libraries": ["libios_coroutines.so", "libqemu_jni.so"],
+      "apk_sha256": "9096cc4de1d2b9623156a13faf1410a0fce7b42f9e243645a599ea08f0304dbb",
+      "cpu_qualification_apk_sha256": "38a54846574fe65bb65a38b371189f714502ea765bfc6133ee8ef5920177c271",
+      "installer_update": "0.1.1-cpu-development: short-transfer retention and mandatory immutable receipt hashes; native engine unchanged; Android resume/recovery and native smoke passed"
+    }
+  },
+  "executable_writer_ownership": {
+    "source": "native/writer-lease.c",
+    "behavior": "Child holds a POSIX writer lock before QEMU main, rejects a dead parent identity, requests SIGTERM on parent-thread death; mutations also check the writer lock",
+    "input_library_sha256": "9e666204371efacd681216d60709379dbfd244cec2a412e29f000df303303c01",
+    "apk_library_sha256": "44f8c0c79049e184f46356c3110f82f15ca4e75087d7a01662df7ee6c3dd1307"
+  }
+}

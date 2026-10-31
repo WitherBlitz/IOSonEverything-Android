@@ -1,0 +1,25 @@
+/* Authored public-API color-state qualification. SPDX-License-Identifier: AGPL-3.0-or-later */
+static BOOL blending(id<MTLDevice> device,id<MTLLibrary> library,BOOL negative){
+ MTLTextureDescriptor *shape=[MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA8Unorm width:8 height:8 mipmapped:NO];shape.storageMode=MTLStorageModeShared;shape.usage=MTLTextureUsageRenderTarget|MTLTextureUsageShaderRead;
+ id<MTLTexture> target=[device newTextureWithDescriptor:shape];id<MTLCommandQueue> queue=[device newCommandQueue];id<MTLBuffer> vertices=[device newBufferWithLength:LAYOUT_BYTES options:0];id<MTLBuffer> positions=[device newBufferWithLength:12*sizeof(float) options:0],colors=[device newBufferWithLength:24*sizeof(float) options:0];unsigned mismatches=0,padding=0;
+ for(unsigned which=0;which<BLENDING_CASES;which++){
+  const uint32_t *values=blending_cases[which];MTLRenderPipelineDescriptor *pd=[MTLRenderPipelineDescriptor new];pd.vertexFunction=[library newFunctionWithName:@"layout_vertex"];pd.fragmentFunction=[library newFunctionWithName:@"colored_fragment"];
+  MTLVertexDescriptor *layout=[MTLVertexDescriptor vertexDescriptor];layout.attributes[3].format=MTLVertexFormatFloat2;layout.attributes[3].offset=4;layout.attributes[3].bufferIndex=6;layout.attributes[7].format=MTLVertexFormatFloat4;layout.attributes[7].offset=16;layout.attributes[7].bufferIndex=6;layout.layouts[6].stride=40;pd.vertexDescriptor=which==BLENDING_CASES-1?nil:layout;if(which==BLENDING_CASES-1)pd.vertexFunction=[library newFunctionWithName:@"colored_vertex"];
+  MTLRenderPipelineColorAttachmentDescriptor *color=pd.colorAttachments[0];color.pixelFormat=MTLPixelFormatRGBA8Unorm;color.blendingEnabled=values[0];color.sourceRGBBlendFactor=values[1];color.destinationRGBBlendFactor=values[2];color.rgbBlendOperation=values[3];color.sourceAlphaBlendFactor=values[4];color.destinationAlphaBlendFactor=values[5];color.alphaBlendOperation=values[6];color.writeMask=values[7];
+  NSError *error=nil;id<MTLRenderPipelineState> state=[device newRenderPipelineStateWithDescriptor:pd error:&error];check(state!=nil&&!error,"blend-pipeline");if(!state){printf("METAL_API_BLENDING_ERROR case=%u %s\n",which,error.description.UTF8String);return NO;}
+  // Pipeline creation snapshots descriptor values and function ownership.
+  color.writeMask=MTLColorWriteMaskNone;layout.layouts[6].stride=4;pd.vertexFunction=nil;pd.fragmentFunction=nil;pd=nil;
+  for(unsigned variant=0;variant<2;variant++){
+   blending_vertices(vertices.contents,variant);blending_plain(positions.contents,colors.contents,variant);id<MTLCommandBuffer> command=[queue commandBuffer];MTLRenderPassDescriptor *pass=[MTLRenderPassDescriptor renderPassDescriptor];pass.colorAttachments[0].texture=target;pass.colorAttachments[0].loadAction=MTLLoadActionClear;pass.colorAttachments[0].storeAction=MTLStoreActionStore;pass.colorAttachments[0].clearColor=MTLClearColorMake(blending_clear[0]/255.,blending_clear[1]/255.,blending_clear[2]/255.,blending_clear[3]/255.);
+   id<MTLRenderCommandEncoder> encoder=[command renderCommandEncoderWithDescriptor:pass];[encoder setRenderPipelineState:state];if(which==BLENDING_CASES-1){[encoder setVertexBuffer:positions offset:0 atIndex:0];[encoder setVertexBuffer:colors offset:0 atIndex:1];}else [encoder setVertexBuffer:vertices offset:128 atIndex:6];
+   float constant[4];blending_constant(constant,1-variant);[encoder setBlendColorRed:constant[0] green:constant[1] blue:constant[2] alpha:constant[3]];
+   float notNumber;uint32_t bits=0x7fc00000;memcpy(&notNumber,&bits,4);BOOL refused=NO;@try{[encoder setBlendColorRed:notNumber green:0 blue:0 alpha:0];}@catch(NSException *e){refused=[e.name isEqual:NSInvalidArgumentException];}check(refused,"blend-nonfinite-refused");
+   blending_constant(constant,variant);[encoder setBlendColorRed:constant[0] green:constant[1] blue:constant[2] alpha:constant[3]];
+   [encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:0 vertexCount:6];[encoder endEncoding];[command commit];[command waitUntilCompleted];check(command.status==MTLCommandBufferStatusCompleted&&!command.error,"blend-render-completed");
+   uint8_t result[8*48];memset(result,0x7b,sizeof(result));[target getBytes:result bytesPerRow:48 fromRegion:MTLRegionMake2D(0,0,8,8) mipmapLevel:0];unsigned bad=0;
+   for(unsigned y=0;y<8;y++){for(unsigned x=0;x<8;x++){uint8_t expected[4];blending_expected(expected,x,y,which,variant);if(negative&&which==0&&variant==0&&x==0&&y==0)expected[0]^=8;if(blending_differs(result+y*48+x*4,expected,x,y,which))bad++;}for(unsigned x=32;x<48;x++)if(result[y*48+x]!=0x7b)padding++;}
+   if(bad)printf("METAL_API_BLEND_CASE which=%u variant=%u mismatches=%u\n",which,variant,bad);check(!bad,"blend-every-pixel");mismatches+=bad;
+  }
+ }
+ check(!padding,"blend-readback-padding-preserved");printf("METAL_API_BLENDING pixels=%u cases=%u variants=2 channel_tolerance=1 preserved_exact=true descriptor_snapshot=true mismatches=%u padding_errors=%u\n",BLENDING_CASES*128,BLENDING_CASES,mismatches,padding);return !mismatches&&!padding;
+}

@@ -1,0 +1,153 @@
+/*
+ * Apple A7IOP V4 Mailbox Registers.
+ *
+ * Copyright (c) 2023-2026 Visual Ehrmanntraut (VisualEhrmanntraut).
+ * Copyright (c) 2023-2026 Christian Inci (chris-pcguy).
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+#include "qemu/osdep.h"
+#include "qemu/lockable.h"
+#include "qemu/log.h"
+#include "private.h"
+
+#define REG_INT_MASK_SET (0x0)
+#define REG_INT_MASK_CLR (0x4)
+#define REG_IOP_CTRL     (0x8)
+#define REG_AP_CTRL      (0xC)
+#define REG_IOP_SEND0    (0x700)
+#define REG_IOP_SEND1    (0x704)
+#define REG_IOP_SEND2    (0x708)
+#define REG_IOP_SEND3    (0x70C)
+#define REG_IOP_RECV0    (0x710)
+#define REG_IOP_RECV1    (0x714)
+#define REG_IOP_RECV2    (0x718)
+#define REG_IOP_RECV3    (0x71C)
+#define REG_AP_SEND0     (0x720)
+#define REG_AP_SEND1     (0x724)
+#define REG_AP_SEND2     (0x728)
+#define REG_AP_SEND3     (0x72C)
+#define REG_AP_RECV0     (0x730)
+#define REG_AP_RECV1     (0x734)
+#define REG_AP_RECV2     (0x738)
+#define REG_AP_RECV3     (0x73C)
+
+/*
+ * ASC wrapper v4 ("iop,ascwrap-v4", t8101/A14 and the M1) keeps the message
+ * registers where they are but moves the two queue-control registers to
+ * +0x10 (AP to IOP) and +0x14 (IOP to AP), as in Linux's apple-mailbox
+ * "asc-mailbox-v4" layout (A2I_CONTROL 0x110, I2A_CONTROL 0x114 from the
+ * mailbox block). The machine selects it for the whole SoC.
+ */
+#define REG_IOP_CTRL_ASC4 (0x10)
+#define REG_AP_CTRL_ASC4  (0x14)
+
+static bool apple_a7iop_v4_asc4_layout;
+
+void apple_a7iop_mailbox_set_ascwrap_v4(bool on) { apple_a7iop_v4_asc4_layout = on; }
+
+static hwaddr apple_a7iop_v4_mailbox_addr(hwaddr addr)
+{
+    if (!apple_a7iop_v4_asc4_layout) { return addr; }
+    switch (addr) {
+        case REG_IOP_CTRL_ASC4: return REG_IOP_CTRL;
+        case REG_AP_CTRL_ASC4 : return REG_AP_CTRL;
+        case REG_IOP_CTRL     :
+        case REG_AP_CTRL      : return ~(hwaddr)0;
+        default               : return addr;
+    }
+}
+
+static void apple_a7iop_v4_mailbox_reg_write(void* opaque, hwaddr addr, const uint64_t data, unsigned size)
+{
+    AppleA7IOPMailbox* s = opaque;
+
+    addr = apple_a7iop_v4_mailbox_addr(addr);
+    switch (addr) {
+        case REG_INT_MASK_SET: apple_a7iop_mailbox_set_int_mask(s, (uint32_t)data); break;
+        case REG_INT_MASK_CLR: apple_a7iop_mailbox_clear_int_mask(s, (uint32_t)data); break;
+        case REG_IOP_CTRL    : apple_a7iop_mailbox_set_iop_ctrl(s, (uint32_t)data); break;
+        case REG_AP_CTRL     : apple_a7iop_mailbox_set_ap_ctrl(s, (uint32_t)data); break;
+        case REG_IOP_SEND0   :
+        case REG_IOP_SEND1   :
+        case REG_IOP_SEND2   :
+        case REG_IOP_SEND3:
+            WITH_QEMU_LOCK_GUARD(&s->lock) { memcpy(s->iop_send_reg.data + (addr - REG_IOP_SEND0), &data, size); }
+            if (addr + size - 4 == REG_IOP_SEND3) { apple_a7iop_mailbox_send_iop(s, &s->iop_send_reg); }
+            break;
+        case REG_AP_SEND0: QEMU_FALLTHROUGH;
+        case REG_AP_SEND1: QEMU_FALLTHROUGH;
+        case REG_AP_SEND2: QEMU_FALLTHROUGH;
+        case REG_AP_SEND3:
+            WITH_QEMU_LOCK_GUARD(&s->lock) { memcpy(s->ap_send_reg.data + (addr - REG_AP_SEND0), &data, size); }
+            if (addr + size - 4 == REG_AP_SEND3) { apple_a7iop_mailbox_send_ap(s, &s->ap_send_reg); }
+            break;
+        default:
+            qemu_log_mask(LOG_UNIMP, "%s unknown @ 0x" HWADDR_FMT_plx " value 0x%" PRIx64 "\n", __FUNCTION__, addr,
+                          data);
+            break;
+    }
+}
+
+static uint64_t apple_a7iop_v4_mailbox_reg_read(void* opaque, hwaddr addr, unsigned size)
+{
+    AppleA7IOPMailbox* s   = opaque;
+    uint64_t           ret = 0;
+
+    addr = apple_a7iop_v4_mailbox_addr(addr);
+    switch (addr) {
+        case REG_INT_MASK_SET:
+        case REG_INT_MASK_CLR: return apple_a7iop_mailbox_get_int_mask(s);
+        case REG_IOP_CTRL    : return apple_a7iop_mailbox_get_iop_ctrl(s);
+        case REG_AP_CTRL     : return apple_a7iop_mailbox_get_ap_ctrl(s);
+        case REG_IOP_RECV0:
+            if (!apple_a7iop_mailbox_recv_iop(s, &s->iop_recv_reg)) {
+                WITH_QEMU_LOCK_GUARD(&s->lock) { memset(&s->iop_recv_reg, 0, sizeof(s->iop_recv_reg)); }
+            }
+            QEMU_FALLTHROUGH;
+        case REG_IOP_RECV1:
+        case REG_IOP_RECV2:
+        case REG_IOP_RECV3:
+            WITH_QEMU_LOCK_GUARD(&s->lock) { memcpy(&ret, s->iop_recv_reg.data + (addr - REG_IOP_RECV0), size); }
+            break;
+        case REG_AP_RECV0:
+            if (!apple_a7iop_mailbox_recv_ap(s, &s->ap_recv_reg)) {
+                WITH_QEMU_LOCK_GUARD(&s->lock) { memset(&s->ap_recv_reg, 0, sizeof(s->ap_recv_reg)); }
+            }
+            QEMU_FALLTHROUGH;
+        case REG_AP_RECV1:
+        case REG_AP_RECV2:
+        case REG_AP_RECV3:
+            WITH_QEMU_LOCK_GUARD(&s->lock) { memcpy(&ret, s->ap_recv_reg.data + (addr - REG_AP_RECV0), size); }
+            break;
+        default: qemu_log_mask(LOG_UNIMP, "%s unknown @ 0x" HWADDR_FMT_plx "\n", __FUNCTION__, addr); break;
+    }
+
+    return ret;
+}
+
+static const MemoryRegionOps apple_a7iop_v4_mailbox_reg_ops = {
+    .write                 = apple_a7iop_v4_mailbox_reg_write,
+    .read                  = apple_a7iop_v4_mailbox_reg_read,
+    .endianness            = DEVICE_LITTLE_ENDIAN,
+    .valid.min_access_size = 4,
+    .valid.max_access_size = 8,
+    .impl.min_access_size  = 4,
+    .impl.max_access_size  = 8,
+    .valid.unaligned       = false,
+};
+
+void apple_a7iop_mailbox_init_mmio_v4(AppleA7IOPMailbox* s, const char* name)
+{ memory_region_init_io(&s->mmio, OBJECT(s), &apple_a7iop_v4_mailbox_reg_ops, s, name, REG_AP_RECV3 + 4); }

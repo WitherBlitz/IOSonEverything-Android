@@ -1,0 +1,356 @@
+/*
+ *  Common CPU TLB handling
+ *
+ *  Copyright (c) 2003 Fabrice Bellard
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+ */
+
+#pragma once
+
+#include "exec/cpu-common.h"
+#include "exec/hwaddr.h"
+#include "exec/memattrs.h"
+#include "exec/vaddr.h"
+
+/*
+ * Identifies an address space for tlb_switch_asid_ctx(): the target puts every
+ * register value that selects its translation (e.g. TTBR0/TTBR1 including
+ * their ASID fields) in @w. Two address spaces are the same only if all words
+ * are equal.
+ */
+typedef struct TLBCtxKey
+{
+    uint64_t w[12];
+} TLBCtxKey;
+
+#ifdef CONFIG_TCG
+void tlb_protect_code(ram_addr_t ram_addr);
+void tlb_unprotect_code(ram_addr_t ram_addr);
+#endif
+
+void tlb_reset_dirty(CPUState* cpu, uintptr_t start, uintptr_t length);
+void tlb_reset_dirty_range_all(ram_addr_t start, ram_addr_t length);
+
+/**
+ * tlb_set_page_full:
+ * @cpu: CPU context
+ * @mmu_idx: mmu index of the tlb to modify
+ * @addr: virtual address of the entry to add
+ * @full: the details of the tlb entry
+ *
+ * Add an entry to @cpu tlb index @mmu_idx.  All of the fields of
+ * @full must be filled, except for xlat_offset & section, and
+ * constitute the complete description of the translated page.
+ *
+ * This is generally called by the target tlb_fill function after
+ * having performed a successful page table walk to find the physical
+ * address and attributes for the translation.
+ *
+ * At most one entry for a given virtual address is permitted. Only a
+ * single TARGET_PAGE_SIZE region is mapped; @full->lg_page_size is only
+ * used by tlb_flush_page.
+ */
+void tlb_set_page_full(CPUState* cpu, int mmu_idx, vaddr addr, CPUTLBEntryFull* full);
+
+/**
+ * tlb_set_page_with_attrs:
+ * @cpu: CPU to add this TLB entry for
+ * @addr: virtual address of page to add entry for
+ * @paddr: physical address of the page
+ * @attrs: memory transaction attributes
+ * @prot: access permissions (PAGE_READ/PAGE_WRITE/PAGE_EXEC bits)
+ * @mmu_idx: MMU index to insert TLB entry for
+ * @size: size of the page in bytes
+ *
+ * Add an entry to this CPU's TLB (a mapping from virtual address
+ * @addr to physical address @paddr) with the specified memory
+ * transaction attributes. This is generally called by the target CPU
+ * specific code after it has been called through the tlb_fill()
+ * entry point and performed a successful page table walk to find
+ * the physical address and attributes for the virtual address
+ * which provoked the TLB miss.
+ *
+ * At most one entry for a given virtual address is permitted. Only a
+ * single TARGET_PAGE_SIZE region is mapped; the supplied @size is only
+ * used by tlb_flush_page.
+ */
+void tlb_set_page_with_attrs(CPUState* cpu, vaddr addr, hwaddr paddr, MemTxAttrs attrs, int prot, int mmu_idx,
+                             vaddr size);
+
+/**
+ * tlb_set_page:
+ *
+ * This function is equivalent to calling tlb_set_page_with_attrs()
+ * with an @attrs argument of MEMTXATTRS_UNSPECIFIED. It's provided
+ * as a convenience for CPUs which don't use memory transaction attributes.
+ */
+void tlb_set_page(CPUState* cpu, vaddr addr, hwaddr paddr, int prot, int mmu_idx, vaddr size);
+
+#ifdef CONFIG_TCG
+/**
+ * tlb_flush_page:
+ * @cpu: CPU whose TLB should be flushed
+ * @addr: virtual address of page to be flushed
+ *
+ * Flush one page from the TLB of the specified CPU, for all
+ * MMU indexes.
+ */
+void tlb_flush_page(CPUState* cpu, vaddr addr);
+
+/**
+ * tlb_flush_page_all_cpus_synced:
+ * @cpu: src CPU of the flush
+ * @addr: virtual address of page to be flushed
+ *
+ * Flush one page from the TLB of all CPUs, for all
+ * MMU indexes.
+ *
+ * When this function returns, no CPUs will subsequently perform
+ * translations using the flushed TLBs.
+ */
+void tlb_flush_page_all_cpus_synced(CPUState* src, vaddr addr);
+
+/**
+ * tlb_flush:
+ * @cpu: CPU whose TLB should be flushed
+ *
+ * Flush the entire TLB for the specified CPU. Most CPU architectures
+ * allow the implementation to drop entries from the TLB at any time
+ * so this is generally safe. If more selective flushing is required
+ * use one of the other functions for efficiency.
+ */
+void tlb_flush(CPUState* cpu);
+
+/**
+ * tlb_flush_all_cpus_synced:
+ * @cpu: src CPU of the flush
+ *
+ * Flush the entire TLB for all CPUs, for all MMU indexes.
+ *
+ * When this function returns, no CPUs will subsequently perform
+ * translations using the flushed TLBs.
+ */
+void tlb_flush_all_cpus_synced(CPUState* src_cpu);
+
+/**
+ * tlb_flush_page_by_mmuidx:
+ * @cpu: CPU whose TLB should be flushed
+ * @addr: virtual address of page to be flushed
+ * @idxmap: bitmap of MMU indexes to flush
+ *
+ * Flush one page from the TLB of the specified CPU, for the specified
+ * MMU indexes.
+ */
+void tlb_flush_page_by_mmuidx(CPUState* cpu, vaddr addr, MMUIdxMap idxmap);
+
+/**
+ * tlb_flush_page_by_mmuidx_all_cpus_synced:
+ * @cpu: Originating CPU of the flush
+ * @addr: virtual address of page to be flushed
+ * @idxmap: bitmap of MMU indexes to flush
+ *
+ * Flush one page from the TLB of all CPUs, for the specified
+ * MMU indexes.
+ *
+ * When this function returns, no CPUs will subsequently perform
+ * translations using the flushed TLBs.
+ */
+void tlb_flush_page_by_mmuidx_all_cpus_synced(CPUState* cpu, vaddr addr, MMUIdxMap idxmap);
+
+/**
+ * tlb_flush_by_mmuidx:
+ * @cpu: CPU whose TLB should be flushed
+ * @wait: If true ensure synchronisation by exiting the cpu_loop
+ * @idxmap: bitmap of MMU indexes to flush
+ *
+ * Flush all entries from the TLB of the specified CPU, for the specified
+ * MMU indexes.
+ */
+void tlb_flush_by_mmuidx(CPUState* cpu, MMUIdxMap idxmap);
+
+/**
+ * tlb_flush_by_mmuidx_all_cpus_synced:
+ * @cpu: Originating CPU of the flush
+ * @idxmap: bitmap of MMU indexes to flush
+ *
+ * Flush all entries from the TLB of all CPUs, for the specified
+ * MMU indexes.
+ *
+ * When this function returns, no CPUs will subsequently perform
+ * translations using the flushed TLBs.
+ */
+void tlb_flush_by_mmuidx_all_cpus_synced(CPUState* cpu, MMUIdxMap idxmap);
+
+/**
+ * TLBFlushPage: one page-granule invalidation within a batch.
+ * @addr: virtual address of the page
+ * @idxmap: bitmap of MMU indexes this entry applies to
+ * @bits: number of significant bits of @addr, as for
+ *        tlb_flush_page_bits_by_mmuidx
+ */
+typedef struct TLBFlushPage
+{
+    vaddr     addr;
+    MMUIdxMap idxmap;
+    unsigned  bits;
+} TLBFlushPage;
+
+/**
+ * tlb_flush_pages_by_mmuidx_all_cpus_synced:
+ * @src_cpu: CPU issuing the invalidations
+ * @pages: the pages to invalidate
+ * @n: number of entries in @pages
+ * @idxmap: union of the idxmaps of every entry in @pages
+ *
+ * Apply a batch of page invalidations to every CPU with a single round of
+ * queued work, rather than one round per page. Equivalent to calling
+ * tlb_flush_page_bits_by_mmuidx_all_cpus_synced for each entry in turn, except
+ * that the entries are not ordered with respect to one another.
+ */
+void tlb_flush_pages_by_mmuidx_all_cpus_synced(CPUState* src_cpu, const TLBFlushPage* pages, unsigned n,
+                                               MMUIdxMap idxmap);
+
+/**
+ * tlb_flush_asid_tagged_by_mmuidx:
+ * @cpu: CPU whose TLB should be flushed
+ * @idxmap: bitmap of MMU indexes to flush
+ *
+ * For each mmuidx in @idxmap, flush only those entries that were filled
+ * from a translation carrying CPUTLBEntryFull.asid_tagged, leaving
+ * entries valid for every address space id in place.
+ */
+void tlb_flush_asid_tagged_by_mmuidx(CPUState* cpu, MMUIdxMap idxmap);
+
+/**
+ * tlb_switch_asid_ctx:
+ * @cpu: CPU whose TLB is switching address space (must be the current CPU)
+ * @idxmap: mmu indexes whose ASID-tagged entries belong to the address space
+ * @old_key: the address space being switched away from
+ * @new_key: the address space being switched to
+ *
+ * Use where tlb_flush_asid_tagged_by_mmuidx(@cpu, @idxmap) would be called
+ * because the address space id changed. Instead of discarding the outgoing
+ * address space's entries, keep them aside under @old_key, and if the entries
+ * of @new_key were kept aside earlier, make them current again rather than
+ * starting from an empty TLB.
+ *
+ * Kept-aside TLBs receive every invalidation the live TLB receives (full,
+ * page and range flushes, dirty-tracking resets) while they are kept, so
+ * bringing them back can only produce entries that a TLB tagged with address
+ * space ids could legitimately still hold. The caller must make sure that the
+ * keys capture all translation state that is not otherwise covered by a TLB
+ * flush when it changes.
+ */
+void tlb_switch_asid_ctx(CPUState* cpu, MMUIdxMap idxmap, const TLBCtxKey* old_key, const TLBCtxKey* new_key);
+
+/**
+ * tlb_asid_ctx_enabled:
+ *
+ * Return true if tlb_switch_asid_ctx() may keep TLBs aside (the
+ * "-accel tcg,asid-tlbs=N" property is not 0).
+ */
+bool tlb_asid_ctx_enabled(void);
+
+/* Set the number of TLB context slots per vCPU (0 disables them); "-accel tcg,asid-tlbs=N". */
+#define TLB_ASID_CTX_DEFAULT_SLOTS 8
+#define TLB_ASID_CTX_MAX_SLOTS     16
+void tlb_asid_ctx_set_slots(unsigned n);
+/*
+ * Smallest size (log2 entries) the dynamic TLB sizing shrinks a TLB to, and
+ * the size of a new one: -accel tcg,x-tlb-bits.
+ */
+#define TLB_FLOOR_BITS_DEFAULT 10
+void tlb_set_floor_bits(unsigned bits);
+
+/* Whether tlb_switch_asid_ctx() also keeps jump caches aside ("x-asid-jc", default on). */
+void tlb_asid_ctx_set_jc(bool on);
+
+/*
+ * Mark every kept-aside jump cache of @cpu stale: called whenever @cpu's live
+ * jump cache is cleared as a whole (tcg_flush_jmp_cache()). Any thread.
+ */
+void tlb_asid_ctx_jc_invalidate(CPUState* cpu);
+
+/* Number of tlb_switch_asid_ctx() calls on @cpu that found / did not find the incoming TLBs. */
+void tlb_asid_ctx_stats(CPUState* cpu, uint64_t* hits, uint64_t* misses);
+
+/**
+ * tlb_code_page_is_global:
+ * @cpu: CPU whose TLB to probe
+ * @addr: virtual address of an instruction
+ *
+ * Return true if the instruction-fetch TLB entry for @addr in the current
+ * mmu index is present and not ASID-tagged, i.e. it is kept by
+ * tlb_flush_asid_tagged_by_mmuidx(). Never fills the TLB.
+ */
+bool tlb_code_page_is_global(CPUState* cpu, vaddr addr);
+
+/**
+ * tlb_flush_page_bits_by_mmuidx
+ * @cpu: CPU whose TLB should be flushed
+ * @addr: virtual address of page to be flushed
+ * @idxmap: bitmap of mmu indexes to flush
+ * @bits: number of significant bits in address
+ *
+ * Similar to tlb_flush_page_mask, but with a bitmap of indexes.
+ */
+void tlb_flush_page_bits_by_mmuidx(CPUState* cpu, vaddr addr, MMUIdxMap idxmap, unsigned bits);
+
+/* Similarly, with broadcast and syncing. */
+void tlb_flush_page_bits_by_mmuidx_all_cpus_synced(CPUState* cpu, vaddr addr, MMUIdxMap idxmap, unsigned bits);
+
+/**
+ * tlb_flush_range_by_mmuidx
+ * @cpu: CPU whose TLB should be flushed
+ * @addr: virtual address of the start of the range to be flushed
+ * @len: length of range to be flushed
+ * @idxmap: bitmap of mmu indexes to flush
+ * @bits: number of significant bits in address
+ *
+ * For each mmuidx in @idxmap, flush all pages within [@addr,@addr+@len),
+ * comparing only the low @bits worth of each virtual page.
+ */
+void tlb_flush_range_by_mmuidx(CPUState* cpu, vaddr addr, vaddr len, MMUIdxMap idxmap, unsigned bits);
+
+/* Similarly, with broadcast and syncing. */
+void tlb_flush_range_by_mmuidx_all_cpus_synced(CPUState* cpu, vaddr addr, vaddr len, MMUIdxMap idxmap, unsigned bits);
+#else
+static inline void tlb_flush_page(CPUState* cpu, vaddr addr) { }
+static inline void tlb_flush_page_all_cpus_synced(CPUState* src, vaddr addr) { }
+static inline void tlb_flush(CPUState* cpu) { }
+static inline void tlb_flush_all_cpus_synced(CPUState* src_cpu) { }
+static inline void tlb_flush_page_by_mmuidx(CPUState* cpu, vaddr addr, MMUIdxMap idxmap) { }
+
+static inline void tlb_flush_by_mmuidx(CPUState* cpu, MMUIdxMap idxmap) { }
+static inline void tlb_flush_page_by_mmuidx_all_cpus_synced(CPUState* cpu, vaddr addr, MMUIdxMap idxmap) { }
+static inline void tlb_flush_by_mmuidx_all_cpus_synced(CPUState* cpu, MMUIdxMap idxmap) { }
+static inline void tlb_flush_asid_tagged_by_mmuidx(CPUState* cpu, MMUIdxMap idxmap) { }
+static inline bool tlb_asid_ctx_enabled(void) { return false; }
+static inline void tlb_switch_asid_ctx(CPUState* cpu, MMUIdxMap idxmap, const TLBCtxKey* old_key,
+                                       const TLBCtxKey* new_key)
+{ }
+static inline bool tlb_code_page_is_global(CPUState* cpu, vaddr addr) { return false; }
+static inline void tlb_flush_pages_by_mmuidx_all_cpus_synced(CPUState* cpu, const TLBFlushPage* pages, unsigned n,
+                                                             MMUIdxMap idxmap)
+{ }
+static inline void tlb_flush_page_bits_by_mmuidx(CPUState* cpu, vaddr addr, MMUIdxMap idxmap, unsigned bits) { }
+static inline void tlb_flush_page_bits_by_mmuidx_all_cpus_synced(CPUState* cpu, vaddr addr, MMUIdxMap idxmap,
+                                                                 unsigned bits)
+{ }
+static inline void tlb_flush_range_by_mmuidx(CPUState* cpu, vaddr addr, vaddr len, MMUIdxMap idxmap, unsigned bits) { }
+static inline void tlb_flush_range_by_mmuidx_all_cpus_synced(CPUState* cpu, vaddr addr, vaddr len, MMUIdxMap idxmap,
+                                                             unsigned bits)
+{ }
+#endif /* CONFIG_TCG */

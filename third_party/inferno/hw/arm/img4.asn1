@@ -1,0 +1,36 @@
+Image4 DEFINITIONS EXPLICIT TAGS ::=
+
+BEGIN
+
+IM4P ::= SEQUENCE {
+	magic			IA5String (SIZE(1..4)),
+	type			IA5String (SIZE(1..4)),
+	description		IA5String,
+	data			OCTET STRING,
+	kbag			OCTET STRING OPTIONAL,
+	trailer			SEQUENCE OF ANY OPTIONAL,
+	-- PAYP payload properties (seen on iOS 26 and 27 kernelcaches, not on 14)
+	properties		[0] ANY OPTIONAL
+}
+
+IM4R ::= SEQUENCE {
+	magic			IA5String (SIZE(1..4)),
+	generatorProps	SET OF ANY
+}
+
+IM4M ::= SEQUENCE {
+	magic			IA5String (SIZE(1..4)),
+	version			INTEGER,
+	body			SET OF ANY,
+	signature		OCTET STRING,
+	certificates	SEQUENCE OF ANY
+}
+
+IMG4 ::= SEQUENCE {
+	magic		IA5String (SIZE(1..4)),
+	payload		IM4P,
+	manifest	[0] EXPLICIT IM4M OPTIONAL,
+	restoreInfo	[1] EXPLICIT IM4R OPTIONAL
+}
+
+END

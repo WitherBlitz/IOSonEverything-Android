@@ -1,0 +1,35 @@
+{
+  "repository": "dylanneve1/hackios-xnu-userland",
+  "commit": "05afc43591d81ee2fe3cda943b728b39c3bda257",
+  "files": {
+    "mkapfs.py": {
+      "source": "tools/apfs/mkapfs.py",
+      "upstream_sha256": "c14a81ae9286c69a77673552fcf240de84d37e8fde16f617b2d2efc84d758bdc",
+      "packaged_sha256": "7c3f38bba390dec3c1aead48de162b089db56d9f5f3045c220d74695a9b46ec5",
+      "local_changes": [
+        "Cooperative cancellation in image output loops",
+        "Stream compression-spool writes in chunks at most4MiB; AndroidVolume overrides process-pool collection"
+      ]
+    },
+    "apfs.py": {
+      "source": "tools/apfs/apfs.py",
+      "upstream_sha256": "8e837af2b68ba99902d76becb02193f6c77c29ee14e902b45ddee4837eed6200",
+      "packaged_sha256": "cfcae292fab9bf382de0de42140491ff5d15542a613d89c54bb4944d5e3a419a",
+      "local_changes": [
+        "Binary-mode Windows open and sequential seek/read fallback when os.pread is absent; Android uses os.pread"
+      ]
+    },
+    "select_system.py": {
+      "source": "ios165/select-system.py",
+      "upstream_sha256": "d8dd3562ec31b0e03de63b34f7c4f9aad6758e9f52763d9b993402ea4a6eecf1",
+      "packaged_sha256": "d8dd3562ec31b0e03de63b34f7c4f9aad6758e9f52763d9b993402ea4a6eecf1",
+      "local_changes": []
+    },
+    "font_trim.py": {
+      "source": "tools/font_trim.py",
+      "upstream_sha256": "44c4b12428bf440a7af477bc9632b6b09e22238e0189e2d26ffd69b01678fb1e",
+      "packaged_sha256": "44c4b12428bf440a7af477bc9632b6b09e22238e0189e2d26ffd69b01678fb1e",
+      "local_changes": []
+    }
+  }
+}

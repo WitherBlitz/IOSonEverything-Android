@@ -1,0 +1,1 @@
+These are preserved upstream Scion workflow templates, not active IOSOE release jobs. They rebuild different native inputs and use a fresh debug key. v0.0.1 is published from the locally verified APK and matching source/native manifest; enabling an upstream tag workflow would substitute a different artifact.

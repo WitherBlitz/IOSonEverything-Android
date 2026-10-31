@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">IOSOE (IOSonEverything)</string>
+    <string name="release_tagline">iOS, inside Android · v0.0.1</string>
+    <string name="support_button">Supported now</string>
+    <string name="support_title">Support in v0.0.1</string>
+    <string name="support_summary">Android: 64-bit ARM devices running Android 14 or newer. Tested on the Galaxy S26 Ultra (SM-S948U). Other devices are not yet verified.\n\nInstallable: iOS 14.0 beta 5 (18A5351d), using CPU emulation. SpringBoard, touch, Home, repeat boot and saved appearance have been demonstrated. First installation downloads about 5.5 GB; allow at least 20 GB free.\n\nExperimental: GLES and Metal on prepared iOS 14 guests. Metal testing covers linked demonstration apps on Adreno; it does not establish general app or game compatibility. GPU guest preparation is not automatic.\n\nNot ready: general iOS 16.5 use, CPU hardware virtualization on the tested phone, or a 60 FPS guarantee.\n\nAndroid stays installed. iOS images and SEP ROM are obtained separately by the preparation process; they are not bundled in this APK.</string>
+    <string name="notif_channel">Virtual machine</string>
+    <string name="notif_running">VM running</string>
+    <string name="notif_stop">Stop</string>
+    <string name="import_channel">VM folder import</string>
+    <string name="import_running">Importing VM folder</string>
+    <string name="import_cancel">Cancel</string>
+    <string name="move_running">Moving VM folder</string>
+</resources>

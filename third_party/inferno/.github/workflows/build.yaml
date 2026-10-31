@@ -1,0 +1,67 @@
+name: build
+on:
+  # Pushes to feature branches are already covered by their pull_request run;
+  # building both doubled our macOS jobs and starved the shared runner pool.
+  push:
+    branches: [master]
+  pull_request:
+
+concurrency:
+  group: build-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build_linux:
+    name: Linux Build
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-26.04, ubuntu-26.04-arm]
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          submodules: true
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y build-essential libtool ninja-build pkg-config libglib2.0-dev gnutls-bin libjpeg-turbo8-dev libpng-dev libslirp-dev libssh-dev libusb-1.0-0-dev liblzo2-dev libncurses5-dev libpixman-1-dev libsnappy-dev vde2 zstd libgnutls28-dev libgmp10 libgmp3-dev lzfse liblzfse-dev python3-pip nettle-bin nettle-dev meson libavahi-glib-dev
+      - name: Build
+        run: |
+          meson setup build .
+          meson compile -C build
+      - name: Bare-metal CPU-model tests (a13-test machine)
+        run: |
+          command -v clang >/dev/null || sudo apt-get install -y clang
+          python3 hw/arm/tests/run-a13-tests.py build/qemu-system-aarch64
+      - name: Host unit tests (hw/arm)
+        run: hw/arm/tests/run-host-tests.sh build/host-tests
+
+  build_macos:
+    name: macOS Build
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-26, macos-26-intel]
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          submodules: true
+      - name: Install dependencies
+        run: |
+          brew install libtool meson ninja pkgconf glib gnutls jpeg-turbo libpng libslirp libssh libusb lzo ncurses nettle pixman snappy vde zstd lzfse
+      - name: Build
+        run: |
+          LIBTOOL="glibtool" meson setup build . -Dsdl=disabled -Dgtk=disabled -Dcocoa=enabled -Dc_args="-DNCURSES_WIDECHAR=1"
+          meson compile -C build
+      - name: Bare-metal CPU-model tests (a13-test machine)
+        run: python3 hw/arm/tests/run-a13-tests.py build/qemu-system-aarch64
+      - name: Host unit tests (hw/arm)
+        run: hw/arm/tests/run-host-tests.sh build/host-tests

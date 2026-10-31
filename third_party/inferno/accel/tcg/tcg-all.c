@@ -1,0 +1,387 @@
+/*
+ * QEMU System Emulator, accelerator interfaces
+ *
+ * Copyright (c) 2003-2008 Fabrice Bellard
+ * Copyright (c) 2014 Red Hat Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+#include "qemu/osdep.h"
+#include "system/tcg.h"
+#include "tcg/startup.h"
+#include "qapi/error.h"
+#include "qemu/error-report.h"
+#include "qemu/accel.h"
+#include "qemu/atomic.h"
+#include "qapi/qapi-types-common.h"
+#include "qapi/qapi-builtin-visit.h"
+#include "qemu/units.h"
+#include "qemu/target-info.h"
+#include "hw/boards.h"
+#include "exec/tb-flush.h"
+#include "exec/cputlb.h"
+#include "system/runstate.h"
+#include "accel/accel-ops.h"
+#include "accel/accel-cpu-ops.h"
+#include "accel/tcg/cpu-ops.h"
+#include "internal-common.h"
+#include "accel/tcg/native-int.h"
+
+struct TCGState
+{
+    AccelState parent_obj;
+
+    OnOffAuto     mttcg_enabled;
+    bool          one_insn_per_tb;
+    int           splitwx_enabled;
+    unsigned long tb_size;
+    uint32_t      asid_tlbs;
+    bool          asid_jc;
+    uint32_t      tlb_bits;
+};
+typedef struct TCGState TCGState;
+
+#define TYPE_TCG_ACCEL ACCEL_CLASS_NAME("tcg")
+
+DECLARE_INSTANCE_CHECKER(TCGState, TCG_STATE, TYPE_TCG_ACCEL)
+
+bool qemu_tcg_mttcg_enabled(void)
+{
+    TCGState* s = TCG_STATE(current_accel());
+    return s->mttcg_enabled == ON_OFF_AUTO_ON;
+}
+
+static void tcg_accel_instance_init(Object* obj)
+{
+    TCGState* s = TCG_STATE(obj);
+
+    /* If debugging enabled, default "auto on", otherwise off. */
+#ifdef CONFIG_DEBUG_TCG
+    s->splitwx_enabled = -1;
+#else
+    s->splitwx_enabled = 0;
+#endif
+    s->asid_tlbs = TLB_ASID_CTX_DEFAULT_SLOTS;
+    s->asid_jc   = false;
+    s->tlb_bits  = TLB_FLOOR_BITS_DEFAULT;
+}
+
+bool one_insn_per_tb;
+bool tcg_native_fp = true;
+bool tcg_native_fp_explicit;
+bool tcg_native_fp_fault;
+bool tcg_native_fp_selftest = true;
+bool tcg_native_fp_inline   = true;
+bool tcg_native_int;
+bool tcg_native_int_explicit;
+bool tcg_native_int_ldst = true;
+bool tcg_native_int_el1;
+bool tcg_native_int_fault;
+
+static int tcg_init_machine(AccelState* as, MachineState* ms)
+{
+    TCGState* s           = TCG_STATE(as);
+    unsigned  max_threads = 1;
+
+    CPUClass* cc              = CPU_CLASS(object_class_by_name(target_cpu_type()));
+    bool      mttcg_supported = cc->tcg_ops->mttcg_supported;
+
+    switch (s->mttcg_enabled) {
+        case ON_OFF_AUTO_AUTO:
+            /*
+             * We default to false if we know other options have been enabled
+             * which are currently incompatible with MTTCG. Otherwise when each
+             * guest (target) has been updated to support:
+             *   - atomic instructions
+             *   - memory ordering primitives (barriers)
+             * they can set the appropriate CONFIG flags in ${target}-softmmu.mak
+             *
+             * Once a guest architecture has been converted to the new primitives
+             * there is one remaining limitation to check:
+             *   - The guest can't be oversized (e.g. 64 bit guest on 32 bit host)
+             */
+            if (mttcg_supported) {
+                s->mttcg_enabled = ON_OFF_AUTO_ON;
+                max_threads      = ms->smp.max_cpus;
+            }
+            else {
+                s->mttcg_enabled = ON_OFF_AUTO_OFF;
+            }
+            break;
+        case ON_OFF_AUTO_ON:
+            if (!mttcg_supported) {
+                warn_report("Guest not yet converted to MTTCG - "
+                            "you may get unexpected results");
+            }
+            max_threads = ms->smp.max_cpus;
+            break;
+        case ON_OFF_AUTO_OFF: break;
+        default             : assert_not_reached();
+    }
+
+    tcg_allowed = true;
+
+#ifdef __aarch64__
+    if (tcg_native_int_explicit && tcg_native_int) {
+        info_report("native-int: on (EL0%s%s)", tcg_native_int_el1 ? " and EL1" : "",
+                    tcg_native_int_ldst ? "" : ", loads/stores on TCG");
+    }
+#else
+    if (tcg_native_int) { warn_report("native-int: not available on this host"); }
+    tcg_native_int = false;
+#endif
+
+    page_init();
+    tb_htable_init();
+    tcg_init(s->tb_size * MiB, s->splitwx_enabled, max_threads);
+
+#if defined(CONFIG_SOFTMMU)
+    /*
+     * There's no guest base to take into account, so go ahead and
+     * initialize the prologue now.
+     */
+    tcg_prologue_init();
+#endif
+
+    return 0;
+}
+
+static char* tcg_get_thread(Object* obj, Error** errp)
+{
+    TCGState* s = TCG_STATE(obj);
+
+    return g_strdup(s->mttcg_enabled == ON_OFF_AUTO_ON ? "multi" : "single");
+}
+
+static void tcg_set_thread(Object* obj, const char* value, Error** errp)
+{
+    TCGState* s = TCG_STATE(obj);
+
+    if (strcmp(value, "multi") == 0) { s->mttcg_enabled = ON_OFF_AUTO_ON; }
+    else if (strcmp(value, "single") == 0) {
+        s->mttcg_enabled = ON_OFF_AUTO_OFF;
+    }
+    else {
+        error_setg(errp, "Invalid 'thread' setting %s", value);
+    }
+}
+
+static void tcg_get_tb_size(Object* obj, Visitor* v, const char* name, void* opaque, Error** errp)
+{
+    TCGState* s     = TCG_STATE(obj);
+    uint32_t  value = s->tb_size;
+
+    visit_type_uint32(v, name, &value, errp);
+}
+
+static void tcg_set_tb_size(Object* obj, Visitor* v, const char* name, void* opaque, Error** errp)
+{
+    TCGState* s = TCG_STATE(obj);
+    uint32_t  value;
+
+    if (!visit_type_uint32(v, name, &value, errp)) { return; }
+
+    s->tb_size = value;
+}
+
+static void tcg_get_asid_tlbs(Object* obj, Visitor* v, const char* name, void* opaque, Error** errp)
+{
+    TCGState* s = TCG_STATE(obj);
+
+    visit_type_uint32(v, name, &s->asid_tlbs, errp);
+}
+
+static void tcg_set_asid_tlbs(Object* obj, Visitor* v, const char* name, void* opaque, Error** errp)
+{
+    TCGState* s = TCG_STATE(obj);
+    uint32_t  value;
+
+    if (!visit_type_uint32(v, name, &value, errp)) { return; }
+    if (value > TLB_ASID_CTX_MAX_SLOTS) {
+        error_setg(errp, "asid-tlbs must be between 0 and %d", TLB_ASID_CTX_MAX_SLOTS);
+        return;
+    }
+    s->asid_tlbs = value;
+    tlb_asid_ctx_set_slots(value);
+}
+
+static void tcg_get_tlb_bits(Object* obj, Visitor* v, const char* name, void* opaque, Error** errp)
+{
+    TCGState* s = TCG_STATE(obj);
+
+    visit_type_uint32(v, name, &s->tlb_bits, errp);
+}
+
+static void tcg_set_tlb_bits(Object* obj, Visitor* v, const char* name, void* opaque, Error** errp)
+{
+    TCGState* s = TCG_STATE(obj);
+    uint32_t  value;
+
+    if (!visit_type_uint32(v, name, &value, errp)) { return; }
+    if (value < 6 || value > 16) {
+        error_setg(errp, "x-tlb-bits must be between 6 and 16");
+        return;
+    }
+    s->tlb_bits = value;
+    tlb_set_floor_bits(value);
+}
+
+static bool tcg_get_asid_jc(Object* obj, Error** errp)
+{
+    TCGState* s = TCG_STATE(obj);
+    return s->asid_jc;
+}
+
+static void tcg_set_asid_jc(Object* obj, bool value, Error** errp)
+{
+    TCGState* s = TCG_STATE(obj);
+    s->asid_jc  = value;
+    tlb_asid_ctx_set_jc(value);
+}
+
+static bool tcg_get_splitwx(Object* obj, Error** errp)
+{
+    TCGState* s = TCG_STATE(obj);
+    return s->splitwx_enabled;
+}
+
+static void tcg_set_splitwx(Object* obj, bool value, Error** errp)
+{
+    TCGState* s        = TCG_STATE(obj);
+    s->splitwx_enabled = value;
+}
+
+static bool tcg_get_one_insn_per_tb(Object* obj, Error** errp)
+{
+    TCGState* s = TCG_STATE(obj);
+    return s->one_insn_per_tb;
+}
+
+static void tcg_set_one_insn_per_tb(Object* obj, bool value, Error** errp)
+{
+    TCGState* s        = TCG_STATE(obj);
+    s->one_insn_per_tb = value;
+    /* Set the global also: this changes the behaviour */
+    qatomic_set(&one_insn_per_tb, value);
+}
+
+static bool tcg_get_native_fp(Object* obj, Error** errp) { return tcg_native_fp; }
+static void tcg_set_native_fp(Object* obj, bool value, Error** errp)
+{
+    tcg_native_fp          = value;
+    tcg_native_fp_explicit = true;
+}
+static bool tcg_get_native_fp_fault(Object* obj, Error** errp) { return tcg_native_fp_fault; }
+static void tcg_set_native_fp_fault(Object* obj, bool value, Error** errp) { tcg_native_fp_fault = value; }
+static bool tcg_get_native_fp_selftest(Object* obj, Error** errp) { return tcg_native_fp_selftest; }
+static void tcg_set_native_fp_selftest(Object* obj, bool value, Error** errp) { tcg_native_fp_selftest = value; }
+
+static bool tcg_get_native_fp_inline(Object* obj, Error** errp) { return tcg_native_fp_inline; }
+static void tcg_set_native_fp_inline(Object* obj, bool value, Error** errp) { tcg_native_fp_inline = value; }
+
+static bool tcg_get_native_int(Object* obj, Error** errp) { return tcg_native_int; }
+static void tcg_set_native_int(Object* obj, bool value, Error** errp)
+{
+    tcg_native_int          = value;
+    tcg_native_int_explicit = true;
+}
+static bool tcg_get_native_int_ldst(Object* obj, Error** errp) { return tcg_native_int_ldst; }
+static void tcg_set_native_int_ldst(Object* obj, bool value, Error** errp) { tcg_native_int_ldst = value; }
+static bool tcg_get_native_int_fault(Object* obj, Error** errp) { return tcg_native_int_fault; }
+static void tcg_set_native_int_fault(Object* obj, bool value, Error** errp) { tcg_native_int_fault = value; }
+static bool tcg_get_native_int_el1(Object* obj, Error** errp) { return tcg_native_int_el1; }
+static void tcg_set_native_int_el1(Object* obj, bool value, Error** errp) { tcg_native_int_el1 = value; }
+
+static int tcg_gdbstub_supported_sstep_flags(AccelState* as) { return SSTEP_ENABLE | SSTEP_NOIRQ | SSTEP_NOTIMER; }
+
+static void tcg_accel_class_init(ObjectClass* oc, const void* data)
+{
+    AccelClass* ac                    = ACCEL_CLASS(oc);
+    ac->name                          = "tcg";
+    ac->init_machine                  = tcg_init_machine;
+    ac->cpu_common_realize            = tcg_exec_realizefn;
+    ac->cpu_common_unrealize          = tcg_exec_unrealizefn;
+    ac->get_stats                     = tcg_get_stats;
+    ac->allowed                       = &tcg_allowed;
+    ac->gdbstub_supported_sstep_flags = tcg_gdbstub_supported_sstep_flags;
+
+    object_class_property_add_str(oc, "thread", tcg_get_thread, tcg_set_thread);
+
+    object_class_property_add(oc, "tb-size", "int", tcg_get_tb_size, tcg_set_tb_size, NULL, NULL);
+    object_class_property_set_description(oc, "tb-size", "TCG translation block cache size");
+
+    object_class_property_add(oc, "asid-tlbs", "uint32", tcg_get_asid_tlbs, tcg_set_asid_tlbs, NULL, NULL);
+    object_class_property_set_description(oc, "asid-tlbs",
+                                          "TLBs of recently left address spaces kept per vCPU (0 disables)");
+
+    object_class_property_add(oc, "x-tlb-bits", "uint32", tcg_get_tlb_bits, tcg_set_tlb_bits, NULL, NULL);
+    object_class_property_set_description(oc, "x-tlb-bits",
+                                          "log2 of the smallest softmmu TLB size per MMU mode (default 10)");
+
+    object_class_property_add_bool(oc, "x-asid-jc", tcg_get_asid_jc, tcg_set_asid_jc);
+    object_class_property_set_description(oc, "x-asid-jc", "Keep jump caches with the asid-tlbs TLBs (default off)");
+
+    object_class_property_add_bool(oc, "split-wx", tcg_get_splitwx, tcg_set_splitwx);
+    object_class_property_set_description(oc, "split-wx", "Map jit pages into separate RW and RX regions");
+
+    object_class_property_add_bool(oc, "one-insn-per-tb", tcg_get_one_insn_per_tb, tcg_set_one_insn_per_tb);
+    object_class_property_set_description(oc, "one-insn-per-tb", "Only put one guest insn in each translation block");
+
+    object_class_property_add_bool(oc, "native-fp", tcg_get_native_fp, tcg_set_native_fp);
+    object_class_property_set_description(oc, "native-fp",
+                                          "Execute guest FP on the host FPU where bit-exact (same-ISA hosts, "
+                                          "default on, see docs/NATIVE-FP.md)");
+    object_class_property_add_bool(oc, "x-native-fp-fault", tcg_get_native_fp_fault, tcg_set_native_fp_fault);
+    object_class_property_set_description(oc, "x-native-fp-fault", "Test only: inject a NaN-propagation fault");
+    object_class_property_add_bool(oc, "x-native-fp-selftest", tcg_get_native_fp_selftest,
+                                   tcg_set_native_fp_selftest);
+    object_class_property_set_description(oc, "x-native-fp-selftest",
+                                          "Test only: set off to skip the native-fp host self-test");
+    object_class_property_add_bool(oc, "x-native-fp-inline", tcg_get_native_fp_inline, tcg_set_native_fp_inline);
+    object_class_property_set_description(oc, "x-native-fp-inline",
+                                          "Diagnostic: set off to keep native-fp in helpers (no inline host FP)");
+
+    object_class_property_add_bool(oc, "native-int", tcg_get_native_int, tcg_set_native_int);
+    object_class_property_set_description(oc, "native-int",
+                                          "Execute guest EL0 integer code, loads/stores and branches as the same "
+                                          "host instructions (AArch64 hosts, default off, see docs/NATIVE-INT.md)");
+    object_class_property_add_bool(oc, "x-native-int-ldst", tcg_get_native_int_ldst, tcg_set_native_int_ldst);
+    object_class_property_set_description(oc, "x-native-int-ldst",
+                                          "Diagnostic: set off to keep native-int loads and stores on TCG");
+    object_class_property_add_bool(oc, "x-native-int-el1", tcg_get_native_int_el1, tcg_set_native_int_el1);
+    object_class_property_set_description(oc, "x-native-int-el1",
+                                          "Experimental: native-int at EL1 too (measurement only)");
+    object_class_property_add_bool(oc, "x-native-int-fault", tcg_get_native_int_fault, tcg_set_native_int_fault);
+    object_class_property_set_description(oc, "x-native-int-fault",
+                                          "Test only: native-int slow paths skip writing back guest registers");
+}
+
+static const TypeInfo tcg_accel_type = {
+    .name          = TYPE_TCG_ACCEL,
+    .parent        = TYPE_ACCEL,
+    .instance_init = tcg_accel_instance_init,
+    .class_init    = tcg_accel_class_init,
+    OBJECT_TYPE_INSTANCE(TCGState),
+};
+module_obj(TYPE_TCG_ACCEL);
+
+static void register_accel_types(void) { type_register_static(&tcg_accel_type); }
+
+type_init(register_accel_types);

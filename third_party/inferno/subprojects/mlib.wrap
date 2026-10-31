@@ -1,0 +1,10 @@
+[wrap-git]
+url = https://github.com/P-p-H-d/mlib
+# IOSonEverything future rebuild pin, observed October 24, 2026.
+# Historical Scion CI resolution is not established by this new pin.
+revision = 93cddfb56c32976d8aeefd45ef9094167f64b285
+depth = 1
+patch_directory = mlib
+
+[provide]
+mlib = mlib_dep

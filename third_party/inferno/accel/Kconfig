@@ -1,0 +1,11 @@
+config WHPX
+    bool
+
+config HVF
+    bool
+
+config TCG
+    bool
+
+config KVM
+    bool

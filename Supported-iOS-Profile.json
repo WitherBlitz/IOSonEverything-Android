@@ -1,0 +1,322 @@
+{
+  "schema_version": 1,
+  "profile_id": "iphone11-18A5351d-cpu-v1",
+  "application": {
+    "display_name": "IOSOE (IOSonEverything)",
+    "package": "io.github.witherblitz.iosoneverything.gpulab",
+    "version_code": 4,
+    "version_name": "0.0.1",
+    "apk_sha256": "c08a957ff368bbdaa66b12296e65d5e278b0d5d965f215cc2c2e4c81d962d849"
+  },
+  "generated_utc": "2026-10-30T11:11:04.106234+00:00",
+  "status": "supported_for_cpu_boot_on_tested_SM-S948U",
+  "qualification": {
+    "date": "2026-10-23",
+    "evidence": "CPU-Boot-Test-Report.md and IOSonEverything-Test-Evidence.zip",
+    "scope": [
+      "real SpringBoard",
+      "touch",
+      "Home",
+      "persistent appearance",
+      "repeat boots",
+      "five minutes running"
+    ],
+    "installer_receipt_gui_boot_flag_is_not_used_as_gui_proof": true
+  },
+  "guest": {
+    "product": "iPhone12,1",
+    "name": "iPhone 11",
+    "board": "n104ap",
+    "version": "14.0 beta 5",
+    "build": "18A5351d",
+    "restore_variant": "Developer Erase Install (IPSW)",
+    "restore_behavior": "Erase",
+    "ap_chip_id": "0x8030",
+    "ap_board_id": "0x04"
+  },
+  "engine": {
+    "app_base": "dylanneve1/scion@f76f9b943de32d55641fbe1f7f5215908845cdf9",
+    "emulator_source": "dylanneve1/pyre@cefb274af5cea523dee6db97bd241421c2a76768",
+    "machine": "t8030",
+    "execution": "TCG CPU emulation",
+    "guest_rendering": "CPU",
+    "native_input_hashes": {
+      "libc++.so": "dd327fb7c8d4abcb0fbb5bb839a946d365102af120466b956637e3559f4353e8",
+      "libgfxstream_backend.so": "41414d640a526f56ce9a151f786e965a6e1fe3769e201790e0e58e7a31ff87da",
+      "libios16-7zz.so": "7c652f4c42b1299062d9aefdd750eb37ea1e9aac1ca6d41e69f77c8e825c52e1",
+      "libios16-unzbm.so": "2737b264d817a5fa0a1cbc53d8fdac0380968dd7ee80f59e49cbdfaf3f2094a2",
+      "libios_coroutines.so": "44f8c0c79049e184f46356c3110f82f15ca4e75087d7a01662df7ee6c3dd1307",
+      "libios_gpu.so": "454109bfcad5c589ae319777ac869ce4f2c2a3a0995981eb206af67149ae3f0c",
+      "libios_gpu_ipc_bench.so": "567cd4abaffe78b77a0334f05e58d813e466c044bb3dfe9c8c68a39bc024d548",
+      "libios_gpu_upload_bench.so": "526a908d24de9665533610246d7b13d49b2ea4b0efa6d681b3af3f6044069e16",
+      "libios_gpu_worker.so": "0930ba7966a4bd13623260716679eabd1094e653fc411cb312e0d9e6e5c445fb",
+      "libios_metal_abi_test.so": "3b18f686e827a62dd51574252c89185c61063eca52fb2bd648d071160b7045a3",
+      "libios_metal_diagnostic.so": "2d80d570bddf0b60b4d123bd9b9adb9dfa69aedce6e950668d1c5b1e12c08dd9",
+      "libios_metal_native_audit.so": "49f4970bcc153b9f929f37a930330c1f765f866a5437a57fc9d613b490ab4042",
+      "libios_metal_prereq.so": "8641e8b146f5b8247b8a1636db0fef792b9b91640e5af0bcbb3d139dfb663361",
+      "libios_metal_readback_bench.so": "dca33b68e35ec0a1d551cb1ce992f3e1b6729e75eba0ebbc747ea63a3fc3d66c",
+      "libqemu-system-aarch64-shared.so": "3018eb9a6a939a3b6f3f5c3a94ca3e5fa3f65b1924aba1e23aca0e047293b001",
+      "libqemu-system-aarch64-virt.so": "5ef0fb86f0f7c1dd3cb6a282b7b9e4bcf4f5d40769273c64532a8b47fdb5e72b",
+      "libqemu-system-aarch64.so": "65ae8ace3740ea4b4f2ea5552706e622659d18c392bb4e49f0149c67e5b7b2ab",
+      "libqemu_jni.so": "274817189b8d5be85119afaa952c4246f3a220faa5234b525dd8c6054af46032",
+      "libscfb.so": "a74463c88227ff0fe60ae36517184f39e96381386b56916c9a342271e3f51a5f",
+      "libiosgpu_metal.so": "4367d6085e52ccfd92ba8e94a38516d8ea6ea26ca4f8c95dca21155755178798",
+      "libEGL.so": "f285e52a483df166b2777710e5a827ee431fe1772b5596bce61c9d5455b22133"
+    },
+    "apk_native_hashes": {
+      "libc++.so": "dd327fb7c8d4abcb0fbb5bb839a946d365102af120466b956637e3559f4353e8",
+      "libgfxstream_backend.so": "41414d640a526f56ce9a151f786e965a6e1fe3769e201790e0e58e7a31ff87da",
+      "libios16-7zz.so": "7c652f4c42b1299062d9aefdd750eb37ea1e9aac1ca6d41e69f77c8e825c52e1",
+      "libios16-unzbm.so": "2737b264d817a5fa0a1cbc53d8fdac0380968dd7ee80f59e49cbdfaf3f2094a2",
+      "libios_coroutines.so": "44f8c0c79049e184f46356c3110f82f15ca4e75087d7a01662df7ee6c3dd1307",
+      "libios_gpu.so": "454109bfcad5c589ae319777ac869ce4f2c2a3a0995981eb206af67149ae3f0c",
+      "libios_gpu_ipc_bench.so": "567cd4abaffe78b77a0334f05e58d813e466c044bb3dfe9c8c68a39bc024d548",
+      "libios_gpu_upload_bench.so": "526a908d24de9665533610246d7b13d49b2ea4b0efa6d681b3af3f6044069e16",
+      "libios_gpu_worker.so": "0930ba7966a4bd13623260716679eabd1094e653fc411cb312e0d9e6e5c445fb",
+      "libios_metal_abi_test.so": "3b18f686e827a62dd51574252c89185c61063eca52fb2bd648d071160b7045a3",
+      "libios_metal_diagnostic.so": "2d80d570bddf0b60b4d123bd9b9adb9dfa69aedce6e950668d1c5b1e12c08dd9",
+      "libios_metal_native_audit.so": "49f4970bcc153b9f929f37a930330c1f765f866a5437a57fc9d613b490ab4042",
+      "libios_metal_prereq.so": "8641e8b146f5b8247b8a1636db0fef792b9b91640e5af0bcbb3d139dfb663361",
+      "libios_metal_readback_bench.so": "dca33b68e35ec0a1d551cb1ce992f3e1b6729e75eba0ebbc747ea63a3fc3d66c",
+      "libqemu-system-aarch64-shared.so": "3018eb9a6a939a3b6f3f5c3a94ca3e5fa3f65b1924aba1e23aca0e047293b001",
+      "libqemu-system-aarch64-virt.so": "5ef0fb86f0f7c1dd3cb6a282b7b9e4bcf4f5d40769273c64532a8b47fdb5e72b",
+      "libqemu-system-aarch64.so": "65ae8ace3740ea4b4f2ea5552706e622659d18c392bb4e49f0149c67e5b7b2ab",
+      "libqemu_jni.so": "274817189b8d5be85119afaa952c4246f3a220faa5234b525dd8c6054af46032",
+      "libscfb.so": "a74463c88227ff0fe60ae36517184f39e96381386b56916c9a342271e3f51a5f",
+      "libiosgpu_metal.so": "4367d6085e52ccfd92ba8e94a38516d8ea6ea26ca4f8c95dca21155755178798",
+      "libEGL.so": "f285e52a483df166b2777710e5a827ee431fe1772b5596bce61c9d5455b22133"
+    },
+    "provenance_file": "provenance.json (historical CPU source); RELEASE-NATIVE-INPUTS.json (current payloads)"
+  },
+  "downloaded_inputs": [
+    {
+      "name": "iPhone11,8,iPhone12,1_14.0_18A5351d_Restore.ipsw",
+      "cache_file": "18A5351d.ipsw",
+      "role": "Apple restore firmware",
+      "publisher": "Apple CDN",
+      "url": "https://updates.cdn-apple.com/2020SummerSeed/fullrestores/001-35886/5FE9BE2E-17F8-41C8-96BB-B76E2B225888/iPhone11,8,iPhone12,1_14.0_18A5351d_Restore.ipsw",
+      "bytes": 5507405643,
+      "sha256": "706742ed60327a5247c29ccc5bf7e6ce9bbf11dd30a468f8f6fc9da76bdca96d"
+    },
+    {
+      "name": "AppleSEPROM-Cebu-B1",
+      "role": "Apple A13 SEP ROM required by the emulated SEP",
+      "publisher": "Independent public ROM research collection, not an Apple download",
+      "url": "https://securerom.fun/resources/SEPROM/AppleSEPROM-Cebu-B1",
+      "bytes": 86016,
+      "sha256": "e3b11f624e3382a203c1f781b889b407554668936c86b0e2d41d229976317a1b"
+    }
+  ],
+  "bundled_preparation_inputs": [
+    {
+      "name": "ticket-template.plist",
+      "bytes": 8997,
+      "sha256": "26dfa587bd7d528770fe2a2957b7cc3c5cb384cf7127bb4157e327230055db7c"
+    },
+    {
+      "name": "inferno_patcher",
+      "bytes": 51216,
+      "sha256": "afdd06c60da1c4927aec79850cf846a192a4336404232974004c0e674fe32b7b"
+    },
+    {
+      "name": "inferno_fs_patcher",
+      "bytes": 153888,
+      "sha256": "716f54ce4b2ad4f79c3914c2957a617e69eeea2884d25cecb27a134eeedcb8c6"
+    }
+  ],
+  "public_research_material": {
+    "ticket_source": "https://chefkiss.dev/Extras/Inferno/ticket.shsh2",
+    "ticket_processing": "Only ApImg4Ticket retained; deterministic AP/SEP research ticket rewriting uses iosvm/tickets.py",
+    "sep_key_source": "https://theapplewiki.com/index.php?title=Keys:AzulSeed_18A5351d_(iPhone12,1)&oldid=297144",
+    "sep_iv_hex": "017a328b048aab2edcc4cfe043c2d844",
+    "sep_aes256_key_hex": "a55e67143d57938e37ec6b83ba9e181c0d24bd0a6a14f9f39752b967a9c45cfc",
+    "helper_release": "https://github.com/MakrSas/Inferno-iOS/releases/tag/v0.3.1",
+    "helper_release_ipa_sha256": "c66b56de80d55b989df1c70ebcf4b321751a6703a9d253c9ff349f434fd7c8dc",
+    "helper_source_revision": "a8f688a3315ed7fd1effc83cd439fb6662501c85",
+    "helper_adaptation": {
+      "original_sha256": "8fbf7748dc923f78cf0752251baee2626b9c891cbe5e4a62d53592f92f8091cf",
+      "sha256": "afdd06c60da1c4927aec79850cf846a192a4336404232974004c0e674fe32b7b",
+      "recipe": "native/adapt_guest_daemon.py, native/guest-exec-trace.S and native/guest-sep-prepare.S",
+      "changes": "Exclude dotted cache sidecars for iOS14; child exec phase logging; serialize saved xART/gigalocker/SEP load/ping and cleanup in cold patch boot; regenerate existing ad-hoc page hashes only"
+    },
+    "filesystem_patcher_source": "https://git.chefkiss.dev/AppleHax/InfernoFSPatcher/src/commit/3008aaaa0909824a71ee3040c9edc58703c250f5"
+  },
+  "build_manifest_sha256": "b21b2cedefcd2f0bc76cabbe6475d8f0fa8ff0ea94ad749d23218eb96f2d85e0",
+  "selected_components": {
+    "KernelCache": {
+      "archive_path": "kernelcache.release.iphone12b",
+      "bytes": 15704952,
+      "sha256": "7bbea374b12f89bf9c071e07935fc2894d553f06cb5444e4370c1154278bd9df",
+      "zip_compression": 8,
+      "manifest_digest_hex": "2fcb67c17d4af58728de6d124374b4e9565c4c1160b9538d9a2f8cb1adfab55db74d05d9a1aef54e73d2148a6036e646"
+    },
+    "DeviceTree": {
+      "archive_path": "Firmware/all_flash/DeviceTree.n104ap.im4p",
+      "bytes": 42553,
+      "sha256": "dbd9be96c4b18f48a1842879237ae8f27043b894a2ed6139e396dbedca232411",
+      "zip_compression": 8,
+      "manifest_digest_hex": "270458ee6ff18dd3f790604aa3e208ad1c16629f9a2a141e6a5fedcda33fee3992dd7f0480b4fa7427cf363fc85ba0bd"
+    },
+    "RestoreTrustCache": {
+      "archive_path": "Firmware/038-44135-124.dmg.trustcache",
+      "bytes": 4931,
+      "sha256": "af33b3466bd828bf1ccaa1ab35d060bfcce62ade26ee74acf176501b00ea0d7f",
+      "zip_compression": 8,
+      "manifest_digest_hex": "446ef2cdda9bca8dd4e8a27ba3350cbd9249ff216b06eb1d4abcb49fea2828c5936cf179d80829ff061d261efa681305"
+    },
+    "RestoreRamDisk": {
+      "archive_path": "038-44135-124.dmg",
+      "bytes": 104685595,
+      "sha256": "4013d9b3bb6c7fa0ff82397effc032b6afdb6f3c5e1672782698119dd9b3f704",
+      "zip_compression": 8,
+      "manifest_digest_hex": "d271bb706dfa8de2e222383ba409fe715f8dd30bd0463cdb9d410088c931a6068ac258958a3838bf6f41b2a2dae16e20"
+    },
+    "SEP": {
+      "archive_path": "Firmware/all_flash/sep-firmware.n104.RELEASE.im4p",
+      "bytes": 7783790,
+      "sha256": "76587673e56bbb89e178a015ebbe20fee29f841d07fa6f6cce0e9dad6800dfbe",
+      "zip_compression": 8,
+      "manifest_digest_hex": "d3ac9fc14a4405ced2d52ddc06433a1b7612ac8be1d15379e7d3be41b5d8adff42578aa993c7c08669f1d69a1ef1cb87"
+    },
+    "LLB": {
+      "archive_path": "Firmware/all_flash/LLB.n104.RELEASE.im4p",
+      "bytes": 1559559,
+      "sha256": "c335947ecd13f1ed8c125680dd3422efac8e657701b76d2ae8e22af7ff2c595a",
+      "zip_compression": 8,
+      "manifest_digest_hex": "700ad00280aa9b51daf2b57259864afde70d7b1dd9ca155f848510390e94fec335107f35d1c7da37dea471b703ee71cf"
+    },
+    "OS": {
+      "archive_path": "038-44337-083.dmg",
+      "bytes": 5155389281,
+      "sha256": "cae20aff4f69e72b78f80fdaf92f26d1f3dac7890c66ca00d16bb6f3270368dd",
+      "zip_compression": 0,
+      "manifest_digest_hex": "3f3b3f5d9ed11b5e6b230d44b6d84f83d65030720f1f0b9ccece6516c3d60d077aa86bfc92a30711a7ed869244c35268"
+    }
+  },
+  "disks_bytes": {
+    "root": 34359738368,
+    "firmware": 8388608,
+    "syscfg": 131072,
+    "ctrl_bits": 8192,
+    "nvram": 8192,
+    "effaceable": 4096,
+    "panic_log": 1048576,
+    "sep_nvram": 65536,
+    "sep_ssc": 131072
+  },
+  "disk_format": "sparse raw regular files under app-private storage",
+  "nvme_namespaces": [
+    {
+      "name": "root",
+      "nsid": 1,
+      "nstype": 1,
+      "logical_block_bytes": 4096,
+      "physical_block_bytes": 4096
+    },
+    {
+      "name": "firmware",
+      "nsid": 2,
+      "nstype": 2,
+      "logical_block_bytes": 4096,
+      "physical_block_bytes": 4096
+    },
+    {
+      "name": "syscfg",
+      "nsid": 3,
+      "nstype": 3,
+      "logical_block_bytes": 4096,
+      "physical_block_bytes": 4096
+    },
+    {
+      "name": "ctrl_bits",
+      "nsid": 4,
+      "nstype": 4,
+      "logical_block_bytes": 4096,
+      "physical_block_bytes": 4096
+    },
+    {
+      "name": "nvram",
+      "nsid": 5,
+      "nstype": 5,
+      "logical_block_bytes": 4096,
+      "physical_block_bytes": 4096
+    },
+    {
+      "name": "effaceable",
+      "nsid": 6,
+      "nstype": 6,
+      "logical_block_bytes": 4096,
+      "physical_block_bytes": 4096
+    },
+    {
+      "name": "panic_log",
+      "nsid": 7,
+      "nstype": 8,
+      "logical_block_bytes": 4096,
+      "physical_block_bytes": 4096
+    }
+  ],
+  "sep_pflash_files": [
+    "sep_nvram",
+    "sep_ssc"
+  ],
+  "storage": {
+    "fresh_minimum_free_bytes": 15032385536,
+    "checkpoint_minimum_additional_free_bytes": 4294967296,
+    "recommended_free_bytes": 21474836480,
+    "root_virtual_bytes": 34359738368,
+    "notes": "Sparse allocation grows with use; retained downloads and any previous installation consume additional storage."
+  },
+  "restore_parameters": {
+    "ram_bytes": 3221225472,
+    "vcpus_including_sep": 2,
+    "translation_buffer_mib": 256,
+    "usb_in_bytes": 16384,
+    "usb_out_bytes": 4096,
+    "gpu": false,
+    "patch_boot_mode": "exit_recovery; rd=md0; no -restore/NAND reformat"
+  },
+  "normal_parameters": {
+    "ram_bytes": 3221225472,
+    "vcpus_including_sep": 4,
+    "translation_buffer_mib": 256,
+    "backend": "separate native VM service process; in-process shared QEMU; direct Android Surface"
+  },
+  "verified_installed_boot_files": {
+    "kernel": "7bbea374b12f89bf9c071e07935fc2894d553f06cb5444e4370c1154278bd9df",
+    "dtb": "dbd9be96c4b18f48a1842879237ae8f27043b894a2ed6139e396dbedca232411",
+    "trustcache": "af33b3466bd828bf1ccaa1ab35d060bfcce62ade26ee74acf176501b00ea0d7f",
+    "sep_fw": "ab04034887951e4be2a12e41d8812e847eb1808edfcce628ce2ecc1d8329408a",
+    "sep_rom": "e3b11f624e3382a203c1f781b889b407554668936c86b0e2d41d229976317a1b"
+  },
+  "preparation_steps": [
+    "Verify or resume exact IPSW and SEP ROM downloads by SHA256.",
+    "Select the unique production n104ap erase identity for 18A5351d; reject research/update identities.",
+    "Extract kernel, DT, restore trustcache and ramdisk; prepare AP/SEP tickets and decrypted personalized SEP firmware.",
+    "Create private sparse disk files and seed the firmware namespace with personalized LLB.",
+    "Patch a second ramdisk with the verified daemon and filesystem patcher; disable the idle restore daemon.",
+    "Run the original restore ramdisk and ASR via the private USB bridge until complete; stop QEMU.",
+    "Write a durable restore-only checkpoint, which is not a bootable-install success receipt.",
+    "Boot patch ramdisk without reformat; mount xART, initialize saved gigalocker, load/ping SEP, patch System cache and Data services.",
+    "Require successful patcher and all three checked unmounts, then write receipt and hashes.",
+    "Validate receipt and atomically rename staging to current; retain any previous installation.",
+    "Open iOS through normal native backend. GUI qualification is separate from preparation success."
+  ],
+  "requirements": {
+    "runtime": "arm64 Android API34+; internet for initial acquisition; no computer after APK installation",
+    "android_build": "JDK17, Python3.12, SDK36/build-tools36.0.0, Gradle9.7.1, AGP9.3.3, Chaquopy17.1.0",
+    "native_rebuild": "NDK28.2.13676358 API34 and Linux/macOS build dependencies; see BUILDING-IOSONEVERYTHING.md",
+    "original_guest_helper_rebuild": "Apple iPhoneOS SDK and ad-hoc signing; supplied same-layout adaptations require LLVM only",
+    "root_or_host_policy_changes": false
+  },
+  "missing_required_inputs_for_this_pinned_recipe": [],
+  "firmware_and_rom_bundled_in_deliverables": false,
+  "release_scope": {
+    "automatic_installation": "iOS14 CPU only",
+    "gpu": "experimental prepared iOS14 guest / linked authored Metal apps",
+    "ios16": "preparation/research; not generally supported",
+    "cpu_virtualization_on_test_phone": false,
+    "panel_fps_measured": false,
+    "details": "SUPPORT.md"
+  }
+}

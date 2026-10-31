@@ -1,0 +1,28 @@
+{
+  "audited_date": "2026-10-24",
+  "product_apk_unchanged": true,
+  "scope": "Source packaging, notices and future native rebuild recipes; no product runtime changes",
+  "historical_native_artifact": {
+    "source_and_binary_hashes": "provenance.json",
+    "scion_ci_run_id": 39947039788,
+    "libyuv_resolved_commit": null,
+    "mlib_resolved_commit": null,
+    "limitation": "The retained upstream wraps used moving main/master refs. CI job metadata was retrieved but job-log retrieval failed. These historical resolutions remain unverified; the future pins below do not establish them."
+  },
+  "future_native_rebuild_pins": {
+    "libyuv": {
+      "repository": "https://chromium.googlesource.com/libyuv/libyuv",
+      "commit": "47ba8e2160b71a7cf95c0720cd8944ab771e533e",
+      "observed_ref": "refs/heads/main"
+    },
+    "mlib": {
+      "repository": "https://github.com/P-p-H-d/mlib",
+      "commit": "93cddfb56c32976d8aeefd45ef9094167f64b285",
+      "observed_commit_date": "2026-10-18T11:16:22Z"
+    }
+  },
+  "native_helper_recipe": "native/build-scfb.py; API31 matches the retained helper's Android ELF note",
+  "android_app_rebuild": "Uses retained verified native inputs; does not compile the whole emulator",
+  "native_bit_for_bit_rebuild_from_upstream_sources": "Not established",
+  "licenses_and_notices": "THIRD-PARTY-NOTICES.md and third_party/notices; inventory is not a legal compliance certification"
+}

@@ -1,0 +1,21 @@
+#!/bin/sh
+
+hxtoh()
+{
+    while read -r str; do
+        case $str in
+            HXCOMM*)
+            ;;
+            *)
+            printf "%s\n" "$str"
+            ;;
+        esac
+    done
+}
+
+case "$1" in
+"-h") hxtoh ;;
+*) exit 1 ;;
+esac < "$2"
+
+exit 0
