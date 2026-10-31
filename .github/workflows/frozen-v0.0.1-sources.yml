@@ -1,0 +1,30 @@
+name: Reconstruct frozen v0.0.1 release assets
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  frozen-sources:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Fetch pinned public source and exact compression library
+        run: |
+          git init /tmp/metal2vulkan
+          git -C /tmp/metal2vulkan fetch --depth=1 https://github.com/steelbrain/metal2vulkan.git a2c440b8bcdcf20d34aa1694b61ae22c2a7ea68b
+          git -C /tmp/metal2vulkan checkout --detach FETCH_HEAD
+          git init /tmp/zlib
+          git -C /tmp/zlib fetch --depth=1 https://github.com/madler/zlib.git da607da739fa6047df13e66a2af6b8bec7c2a498
+          git -C /tmp/zlib checkout --detach FETCH_HEAD
+          cd /tmp/zlib
+          ./configure --static
+          make -j2
+      - name: Reconstruct and checksum frozen release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cc .github/scripts/raw-deflate.c /tmp/zlib/libz.a -I/tmp/zlib -o /tmp/raw-deflate
+          python3 .github/scripts/rebuild-v0.0.1-sources.py --translator /tmp/metal2vulkan --deflater /tmp/raw-deflate

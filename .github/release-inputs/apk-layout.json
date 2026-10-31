@@ -1,0 +1,243 @@
+{
+  "apk_sha256": "c08a957ff368bbdaa66b12296e65d5e278b0d5d965f215cc2c2e4c81d962d849",
+  "apk_bytes": 49231564,
+  "residual_sha256": "2576c20521fa3f976b1d0f2601d3823ff9e69724073078774d487270578fac38",
+  "segments": [
+    {
+      "kind": "literal",
+      "offset": 0,
+      "bytes": 2615653
+    },
+    {
+      "kind": "native-deflate",
+      "path": "app/src/main/jniLibs/arm64-v8a/libEGL.so",
+      "bytes": 7428,
+      "sha256": "65dfa7dcae7cb7046aafefb0a92babba162070085da1626f34b7c8d88bb374c9"
+    },
+    {
+      "kind": "literal",
+      "offset": 2615653,
+      "bytes": 53
+    },
+    {
+      "kind": "native-deflate",
+      "path": "app/src/main/jniLibs/arm64-v8a/libc++.so",
+      "bytes": 388021,
+      "sha256": "cb51c67861723fb0b9266513b88f7c583bec85894611a7794b3639b0bad608eb"
+    },
+    {
+      "kind": "literal",
+      "offset": 2615706,
+      "bytes": 1744664
+    },
+    {
+      "kind": "native-deflate",
+      "path": "app/src/main/jniLibs/arm64-v8a/libgfxstream_backend.so",
+      "bytes": 1859340,
+      "sha256": "385b865b291458b111780964faf3f759d0da24ee4d6318605232e39a76061660"
+    },
+    {
+      "kind": "literal",
+      "offset": 4360370,
+      "bytes": 59
+    },
+    {
+      "kind": "native-deflate",
+      "path": "app/src/main/jniLibs/arm64-v8a/libios16-7zz.so",
+      "bytes": 1166505,
+      "sha256": "3c932d6570487fddc4f60f3a3ce349710d42564339dd0d51f47eb28b273464e1"
+    },
+    {
+      "kind": "literal",
+      "offset": 4360429,
+      "bytes": 61
+    },
+    {
+      "kind": "native-deflate",
+      "path": "app/src/main/jniLibs/arm64-v8a/libios16-unzbm.so",
+      "bytes": 7851,
+      "sha256": "0c6447ab60275dea8ed6381f30109a0f597dc9a6ffa769c667106e1f6b81d62e"
+    },
+    {
+      "kind": "literal",
+      "offset": 4360490,
+      "bytes": 64
+    },
+    {
+      "kind": "native-deflate",
+      "path": "app/src/main/jniLibs/arm64-v8a/libios_coroutines.so",
+      "bytes": 2599,
+      "sha256": "95ee1645be9e3ae5f1ac599428edd24488abe2b3fcc3e1229b83e7c01e815fd0"
+    },
+    {
+      "kind": "literal",
+      "offset": 4360554,
+      "bytes": 57
+    },
+    {
+      "kind": "native-deflate",
+      "path": "app/src/main/jniLibs/arm64-v8a/libios_gpu.so",
+      "bytes": 5889,
+      "sha256": "0a1f9e915035835be1d79143490aff3abced812071e7817022d465b8c3f2805b"
+    },
+    {
+      "kind": "literal",
+      "offset": 4360611,
+      "bytes": 67
+    },
+    {
+      "kind": "native-deflate",
+      "path": "app/src/main/jniLibs/arm64-v8a/libios_gpu_ipc_bench.so",
+      "bytes": 4778,
+      "sha256": "0e0d3477f14b0b5dad810d7774a039d61b5b6d8372ad763e4386468e5cdc67e5"
+    },
+    {
+      "kind": "literal",
+      "offset": 4360678,
+      "bytes": 70
+    },
+    {
+      "kind": "native-deflate",
+      "path": "app/src/main/jniLibs/arm64-v8a/libios_gpu_upload_bench.so",
+      "bytes": 4672,
+      "sha256": "a1f6cfea567ae1e70140e4fbcfc919bfcc7d712d2ea94996b453a4091c498908"
+    },
+    {
+      "kind": "literal",
+      "offset": 4360748,
+      "bytes": 64
+    },
+    {
+      "kind": "native-deflate",
+      "path": "app/src/main/jniLibs/arm64-v8a/libios_gpu_worker.so",
+      "bytes": 21352,
+      "sha256": "1f388af22963e44e09f89a828bd024e215f42565c36fdfc2bc4bb1c9474918fd"
+    },
+    {
+      "kind": "literal",
+      "offset": 4360812,
+      "bytes": 68
+    },
+    {
+      "kind": "native-deflate",
+      "path": "app/src/main/jniLibs/arm64-v8a/libios_metal_abi_test.so",
+      "bytes": 14703,
+      "sha256": "b1d1b11beda4ce876f7d82fc083da088cc05ef7e139d45598116cee325bfd4f0"
+    },
+    {
+      "kind": "literal",
+      "offset": 4360880,
+      "bytes": 70
+    },
+    {
+      "kind": "native-deflate",
+      "path": "app/src/main/jniLibs/arm64-v8a/libios_metal_diagnostic.so",
+      "bytes": 8476851,
+      "sha256": "dd7a221b62625fb428a7d25d33ea40a5a97dfb52a0e50746b0d300889af7bcb4"
+    },
+    {
+      "kind": "literal",
+      "offset": 4360950,
+      "bytes": 72
+    },
+    {
+      "kind": "native-deflate",
+      "path": "app/src/main/jniLibs/arm64-v8a/libios_metal_native_audit.so",
+      "bytes": 13003,
+      "sha256": "dc06bb6031a62c491a64dc7afded6c7af0830ae4a6837029e7a3609d599546fd"
+    },
+    {
+      "kind": "literal",
+      "offset": 4361022,
+      "bytes": 66
+    },
+    {
+      "kind": "native-deflate",
+      "path": "app/src/main/jniLibs/arm64-v8a/libios_metal_prereq.so",
+      "bytes": 3616,
+      "sha256": "81ea861292c2aeb0c9279c2a50f41a1206d43fc9d5cd95fa0148c4c6a9f25dac"
+    },
+    {
+      "kind": "literal",
+      "offset": 4361088,
+      "bytes": 74
+    },
+    {
+      "kind": "native-deflate",
+      "path": "app/src/main/jniLibs/arm64-v8a/libios_metal_readback_bench.so",
+      "bytes": 4050,
+      "sha256": "d6669ffc34373df270de717398085aed4cb8e737bcd86e07ccab32e43ddc820a"
+    },
+    {
+      "kind": "literal",
+      "offset": 4361162,
+      "bytes": 62
+    },
+    {
+      "kind": "native-deflate",
+      "path": "app/src/main/jniLibs/arm64-v8a/libiosgpu_metal.so",
+      "bytes": 8486820,
+      "sha256": "1089125326a9918c644af89926e16e3cccf6ffc0ce5df68022ac824bbc8d716e"
+    },
+    {
+      "kind": "literal",
+      "offset": 4361224,
+      "bytes": 1829305
+    },
+    {
+      "kind": "native-deflate",
+      "path": "app/src/main/jniLibs/arm64-v8a/libqemu-system-aarch64-shared.so",
+      "bytes": 3637415,
+      "sha256": "9c07f72683579b1256065b4be688ac56693cb99d8c4241c454e4f20c65f8a32c"
+    },
+    {
+      "kind": "literal",
+      "offset": 6190529,
+      "bytes": 74
+    },
+    {
+      "kind": "native-deflate",
+      "path": "app/src/main/jniLibs/arm64-v8a/libqemu-system-aarch64-virt.so",
+      "bytes": 6001104,
+      "sha256": "f62fd45de9371792ecf17b20535b1fa4e4e35a5d6bdc1c5bc3cb16f25e8a478a"
+    },
+    {
+      "kind": "literal",
+      "offset": 6190603,
+      "bytes": 69
+    },
+    {
+      "kind": "native-deflate",
+      "path": "app/src/main/jniLibs/arm64-v8a/libqemu-system-aarch64.so",
+      "bytes": 3626299,
+      "sha256": "1ed1332b411b1f19304b58be6556578f612a222d43237991fd3a5534f20a7ff1"
+    },
+    {
+      "kind": "literal",
+      "offset": 6190672,
+      "bytes": 58
+    },
+    {
+      "kind": "native-deflate",
+      "path": "app/src/main/jniLibs/arm64-v8a/libqemu_jni.so",
+      "bytes": 3117,
+      "sha256": "b24c495d2022ea18e238ead27134533ac0e3def60bc1fe68ce65cfe06ba86cef"
+    },
+    {
+      "kind": "literal",
+      "offset": 6190730,
+      "bytes": 54
+    },
+    {
+      "kind": "native-deflate",
+      "path": "app/src/main/jniLibs/arm64-v8a/libscfb.so",
+      "bytes": 4908,
+      "sha256": "494151285ebbab07e79535e4dbd7a68d230094855e68b2e3813bd11c3ad40e40"
+    },
+    {
+      "kind": "literal",
+      "offset": 6190784,
+      "bytes": 9300459
+    }
+  ]
+}
